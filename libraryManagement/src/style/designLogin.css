@@ -1,0 +1,370 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 08 4, 22, 7:57:03 PM
+    Author     : WINDOWS 10
+*/
+/*
+.login-form{
+    -fx-background-color:linear-gradient(to bottom right, #252d50, #324f6b);
+}
+
+.card-form{
+    -fx-background-color:#2a5172;
+    -fx-background-radius:15px;
+}
+
+.close{
+    -fx-background-color:transparent;
+    -fx-cursor:hand;
+}
+
+.close:hover{
+    -fx-background-color:#f13f57;
+}
+
+.minimize{
+    -fx-background-color:transparent;
+    -fx-cursor:hand;
+}
+
+.minimize:hover{
+    -fx-background-color:#5481ab;
+}
+
+.textfield{
+    -fx-background-color:transparent;
+    -fx-text-inner-color:#fff;
+    -fx-border-color:#fff;
+    -fx-border-width:0px 0px .4px 0px;
+    -fx-font-size:13px;
+}
+
+.textfield:focused{
+    -fx-border-width:0px 0px 1px 0px;
+}
+
+.login-btn{
+    -fx-background-color:#468ec2;
+    -fx-background-radius:15px;
+    -fx-cursor:hand;
+    -fx-text-fill:#fff;
+    -fx-font-size:15px;
+}
+
+.login-btn:hover{
+    -fx-background-color:#559bc9;
+}
+*/
+
+/*
+    Created on : 18-mar-2021, 20:32:20
+    Author     : LaynezCoder
+*/
+
+@font-face {
+    src: url("../fonts/Montserrat-SemiBold.ttf");
+}
+
+* {
+    -secondary: #858585;
+    -fill: #A2A2A2;
+    -fx-font-smoothing-type: gray;
+    -fx-font-family: "Montserrat SemiBold";
+}
+
+.root {
+    -fx-background-color: #f5f5f5;
+}
+
+.line {
+    -fx-background-color: linear-gradient(to left, #FB8817, #FF4B01, #C12127, #E02AFF);
+}
+
+.title {
+    -fx-font-size: 20;
+    -fx-fill: black;
+}
+
+.sub-title {
+    -fx-font-size: 14;
+    -fx-fill: black;
+}
+
+.box {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(two-pass-box, #BFBFBF, 10, 0, 2, 2);
+}
+
+.background-bear {
+   -fx-background-color:  #f7f7f7;
+}
+
+.blind {
+    -fx-background-color:  #333333;
+}
+
+.blind .margin {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+.blind .handle {
+    -fx-background-color: #ccc;
+}
+
+/*
+.green-button{
+    -fx-font-size: 15;
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #00bd3c;
+    -fx-background-radius: 5;
+}
+.red-button{
+    -fx-font-size: 15;
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #f72525;
+    -fx-background-radius: 5;
+}
+*/
+.text-field {
+    -fx-background-color: #ffffff;
+    -fx-border-color: -fill;
+    -fx-text-fill: black;
+    -fx-font-size: 14;
+    -fx-highlight-fill: -fill;
+}
+
+.hyperlink {
+    -fx-cursor: hand;
+    -fx-font-size: 14;
+    -fx-text-fill: -secondary;
+    -fx-border-color: transparent;
+}
+
+.button
+{
+-fx-background-color : #EBE8F9;
+-fx-text-fill : #262626;
+}
+.button:hover{
+-fx-background-color : #c5d5e6;
+}
+.button:pressed
+{
+-fx-background-color : #EBE8F9;
+}
+.login_btn{
+    -fx-font-size: 15;
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #00bd3c;
+    -fx-background-radius: 5;
+}
+.login_btn:hover{
+    -fx-background-color : #42f59e;
+}
+.login_btn:pressed{
+    -fx-background-color : #00bd3c;
+}
+.scroll-pane {
+    -fx-background-color:  #F3F3F3;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #E2E2E2;
+    -fx-background-radius: 5em;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: #F3F3F3;
+}
+
+.itemC {
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-background-color: white;
+    -fx-padding: 10px 20px;
+}
+
+.top-form{
+    -fx-background-color:#fff;
+    -fx-border-width:.2px .2px .5px .2px;
+}
+
+.semiTop-form{
+    -fx-border-color:#000;
+    -fx-border-width:0px 0px .5px 0px;
+}
+
+.close-btn{
+    -fx-background-color:transparent;
+    -fx-cursor:hand;
+}
+.close-btn:hover{
+    -fx-background-color:#f13f57;
+}
+
+.minimize-btn{
+    -fx-background-color:transparent;
+    -fx-cursor: hand;
+}
+.minimize-btn:hover{
+    -fx-background-color:#dddddd;
+}
+
+.bars{
+    -fx-background-color:transparent;
+    -fx-cursor:hand;
+}
+
+.bars:hover{
+    -fx-background-color:#d6d6d6;
+    -fx-background-radius:5px;
+
+}
+
+.nav-form{
+    -fx-background-color: #EBE8F9;
+}
+
+.edit-btn{
+    -fx-background-color:transparent;
+    -fx-cursor:hand;
+    -fx-padding:60px 0px 0px 0px;
+}
+
+.nav-btn{
+    -fx-background-color:linear-gradient(to bottom right, #344275, #3a6389);
+    -fx-background-radius:5px;
+    -fx-cursor:hand;
+    -fx-font-size:15px;
+    -fx-text-fill:#fff;
+    -fx-font-family:"Microsoft Sans Serif";
+}
+
+.nav-btn:hover{
+    -fx-background-color:linear-gradient(to bottom right, #46589a, #4278a7);
+    -fx-background-radius:5px;
+}
+
+.logout-btn{
+    -fx-background-color:#366d9d;
+    -fx-background-radius:10px;
+    -fx-cursor:hand;
+}
+.logout-btn:hover{
+    -fx-background-color:#396fc6;
+    -fx-background-radius:10px;
+}
+
+.card-form{
+    -fx-background-color:#f8f8f8;
+    -fx-border-color:#454368;
+    -fx-border-radius:10px;
+    -fx-background-radius:10px;
+}
+
+.image-card{
+    -fx-background-color:#fff;
+    -fx-border-color:#000;
+}
+
+.save-btn{
+    -fx-background-color:#558e74;
+    -fx-background-radius:15px;
+    -fx-font-size:15px;
+    -fx-cursor:hand;
+    -fx-text-fill:#fff;
+}
+.save-btn:hover{
+    -fx-background-color:#57b187;
+}
+
+.take-btn{
+    -fx-background-color:#914f96;
+    -fx-background-radius:15px;
+    -fx-cursor:hand;
+    -fx-font-size:15px;
+    -fx-text-fill:#fff;
+}
+.take-btn:hover{
+    -fx-background-color:#b356bb;
+}
+
+.textfield_take{
+    -fx-background-color:#fff;
+    -fx-background-radius:5px;
+    -fx-border-color:#000;
+    -fx-border-radius:5px;
+    -fx-border-width:.4px;
+    -fx-font-size:14px;
+}
+.textfield_take:focused{
+    -fx-border-width:.8px;
+}
+
+.label_take{
+    -fx-background-color:#fff;
+    -fx-padding:0px 0px 0px 8px;
+    -fx-font-size:14px;
+    -fx-border-color:#000;
+    -fx-border-radius:5px;
+    -fx-border-width:.4px;
+    -fx-background-radius:5px;
+}
+
+
+
+.clear-btn{
+    -fx-background-color:#376282;
+    -fx-background-radius:15px;
+    -fx-text-fill:#fff;
+    -fx-font-size:14px;
+    -fx-cursor:hand;
+}
+.clear-btn:hover{
+    -fx-background-color:#4386b5;
+}
+
+.return-btn{
+    -fx-background-color:#31647f;
+    -fx-background-radius:15px;
+    -fx-cursor:hand;
+    -fx-text-fill:#fff;
+    -fx-font-size:15px;
+}
+.return-btn:hover{
+    -fx-background-color:#3686ae;
+}
+
+.unsave-btn{
+    -fx-background-color:#8c2d2d;
+    -fx-background-radius:15px;
+    -fx-text-fill:#fff;
+    -fx-font-size:14px;
+    -fx-cursor:hand;
+}
+.unsave-btn:hover{
+    -fx-background-color:#c54d5d;
+}
+
