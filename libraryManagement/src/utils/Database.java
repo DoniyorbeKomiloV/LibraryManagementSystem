@@ -13,7 +13,7 @@ public class Database {
         try{
         Class.forName("com.mysql.jdbc.Driver");
 //        MY DATABASE IS marcoData
-        Connection connect = DriverManager.getConnection("jdbc:mysql://localhost/lib", "root", "");
+        Connection connect = DriverManager.getConnection("jdbc:mysql://localhost/lms", "root", "");
             return connect;
         }catch(Exception e){e.printStackTrace();}
         

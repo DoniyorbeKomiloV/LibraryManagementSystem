@@ -14,54 +14,40 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-           prefWidth="986.0" stylesheets="@../style/designLogin.css" xmlns="http://javafx.com/javafx/19"
-           xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="986.0" stylesheets="@../style/designLogin.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
     <AnchorPane prefHeight="600.0" prefWidth="968.0">
-        <HBox prefHeight="10.0" prefWidth="986.0" styleClass="line" AnchorPane.leftAnchor="0.0"
-              AnchorPane.rightAnchor="0.0"/>
-        <HBox alignment="CENTER" layoutY="10.0" prefHeight="590.0" prefWidth="986.0" spacing="80.0"
-              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-              AnchorPane.topAnchor="10.0">
+        <HBox prefHeight="10.0" prefWidth="986.0" styleClass="line" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+        <HBox alignment="CENTER" layoutY="10.0" prefHeight="590.0" prefWidth="986.0" spacing="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
             <VBox alignment="CENTER_RIGHT" prefHeight="550.0" prefWidth="500.0" spacing="10.0">
                 <HBox alignment="CENTER" prefHeight="26.0" prefWidth="500.0">
                     <Label prefHeight="32.0" prefWidth="126.0" text="Welcome" textFill="#130606">
                         <font>
-                            <Font name="Arial" size="25.0"/>
+                            <Font name="Arial" size="25.0" />
                         </font>
                     </Label>
                 </HBox>
-                <VBox alignment="TOP_CENTER" minWidth="500.0" prefHeight="480.0" prefWidth="500.0"
-                      spacing="20.0" styleClass="box" stylesheets="@../style/designLogin.css"
-                      VBox.vgrow="NEVER">
+                <VBox alignment="TOP_CENTER" minWidth="500.0" prefHeight="480.0" prefWidth="500.0" spacing="20.0" styleClass="box" stylesheets="@../style/designLogin.css" VBox.vgrow="NEVER">
                     <VBox.margin>
-                        <Insets top="10.0"/>
+                        <Insets top="10.0" />
                     </VBox.margin>
                     <padding>
-                        <Insets left="25.0" right="25.0"/>
+                        <Insets left="25.0" right="25.0" />
                     </padding>
-                    <AnchorPane prefHeight="120.0" prefWidth="200.0"
-                                stylesheets="@../style/designLogin.css">
-                        <ImageView fitHeight="120.0" layoutX="165.0" pickOnBounds="true"
-                                   preserveRatio="true">
-                            <Image url="@../image/book.gif"/>
+                    <AnchorPane prefHeight="120.0" prefWidth="200.0" stylesheets="@../style/designLogin.css">
+                        <ImageView fitHeight="120.0" layoutX="165.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../image/book.gif" />
                         </ImageView>
                     </AnchorPane>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Login"/>
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Login" />
                     <HBox prefHeight="0.0" prefWidth="450.0">
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sub-title"
-                              text="Username"/>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sub-title" text="Username" />
                     </HBox>
-                    <TextField fx:id="id_number" onKeyTyped="#numbersOnly" prefHeight="40.0"
-                               style="-fx-border-radius: 5;"/>
+                    <TextField fx:id="id_number" onKeyTyped="#numbersOnly" prefHeight="40.0" style="-fx-border-radius: 5;" />
                     <HBox prefHeight="0.0" prefWidth="450.0">
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sub-title"
-                              text="Password"/>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sub-title" text="Password" />
                     </HBox>
-                    <PasswordField fx:id="password" prefHeight="40.0" style="-fx-border-radius: 5;"/>
-                    <Button fx:id="login_Btn" mnemonicParsing="false" onAction="#login"
-                            prefHeight="40.0" prefWidth="600.0" styleClass="login_btn"
-                            stylesheets="@../style/designLogin.css" text="Sign in"/>
+                    <PasswordField fx:id="password" prefHeight="40.0" style="-fx-border-radius: 5;" />
+                    <Button fx:id="login_Btn" mnemonicParsing="false" onAction="#login" prefHeight="40.0" prefWidth="600.0" styleClass="login_btn" stylesheets="@../style/designLogin.css" text="Sign in" />
                 </VBox>
             </VBox>
         </HBox>

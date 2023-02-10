@@ -13,6 +13,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import librarymanagement.availableBooks;
 import librarymanagement.getData;
@@ -37,6 +38,10 @@ public class HomeController implements Initializable {
 
     @FXML
     private Button logout_btn;
+    @FXML
+    private Button dashboard_btn;
+    @FXML
+    private Pane dashboard;
 
     @FXML
     private AnchorPane availableBooks_form;
@@ -172,6 +177,11 @@ public class HomeController implements Initializable {
         if (event.getSource() == availableBooks_btn) {
 
             availableBooks_form.setVisible(true);
+            dashboard.setVisible(false);
+        }
+        if (event.getSource() == dashboard_btn) {
+            dashboard.setVisible(true);
+            availableBooks_form.setVisible(false);
         }
     }
     public void showAvailableBooks() {

@@ -368,3 +368,9 @@ and open the template in the editor.
     -fx-background-color:#c54d5d;
 }
 
+.search{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 2em;
+    -fx-border-radius: 2em;
+
+}

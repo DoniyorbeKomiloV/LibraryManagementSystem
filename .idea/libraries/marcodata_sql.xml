@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="marcodata.sql">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/libraryManagement/marcodata.sql.zip!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

@@ -17,11 +17,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import utils.Database;
 import librarymanagement.getData;
+
+import javax.swing.*;
 
 public class LoginController implements Initializable {
     
@@ -34,6 +37,7 @@ public class LoginController implements Initializable {
     @FXML
     private Button login_Btn;
 
+
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet result;
@@ -41,8 +45,8 @@ public class LoginController implements Initializable {
     
     private double x = 0;
     private double y = 0;
+
     public void login(){
-        
         String sql = "SELECT * FROM library_user WHERE id_number = ? and password = ?";
         
         connect = Database.connectDB();
@@ -114,6 +118,7 @@ public class LoginController implements Initializable {
         }catch(Exception e){e.printStackTrace();}
         
     }
+
     public void numbersOnly(KeyEvent event){
         
         if(event.getCharacter().matches("[^\\e\t\r\\d+$]")){
