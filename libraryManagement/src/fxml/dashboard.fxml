@@ -20,7 +20,7 @@
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <AnchorPane fx:id="availableBooks_form" prefHeight="498.0" prefWidth="762.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <AnchorPane layoutX="268.0" layoutY="13.0" prefHeight="472.0" prefWidth="480.0" styleClass="card-form" stylesheets="@../style/dashboardDesign.css" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="13.0">
-                     <TableView fx:id="availableBooks_tableView" layoutX="14.0" layoutY="14.0" onMouseClicked="#selectAvailableBooks" prefHeight="443.0" prefWidth="458.0" style="-fx-border-color: none;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+                     <TableView fx:id="availableBooks_tableView" layoutX="14.0" layoutY="14.0" onMouseClicked="#selectAvailableBooks" prefHeight="443.0" prefWidth="458.0" style="-fx-border-color: -fill; -fx-background-color: #f5f5f5;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                         <columns>
                            <TableColumn fx:id="col_ab_bookTitle" prefWidth="198.40002822875977" text="Book Title" />
                            <TableColumn fx:id="col_ab_author" prefWidth="250.3999481201172" text="Author" />
