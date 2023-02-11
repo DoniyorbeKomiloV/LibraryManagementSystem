@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -14,7 +14,6 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -24,11 +23,12 @@
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <AnchorPane fx:id="availableBooks_form" prefHeight="498.0" prefWidth="762.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <AnchorPane layoutX="268.0" layoutY="13.0" prefHeight="472.0" prefWidth="480.0" styleClass="card-form" stylesheets="@../style/dashboardDesign.css" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="13.0">
-                     <TableView fx:id="availableBooks_tableView" layoutX="14.0" layoutY="14.0" onMouseClicked="#selectAvailableBooks" prefHeight="443.0" prefWidth="458.0" style="-fx-border-color: none; -fx-background-color: #f5f5f5;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+                     <TableView fx:id="availableBooks_tableView" layoutX="14.0" layoutY="14.0" onMouseClicked="#selectBooks" prefHeight="443.0" prefWidth="458.0" style="-fx-border-color: none; -fx-background-color: #f5f5f5;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                         <columns>
-                           <TableColumn fx:id="col_ab_bookTitle" prefWidth="198.40002822875977" text="Book Title" />
-                           <TableColumn fx:id="col_ab_author" prefWidth="250.3999481201172" text="Author" />
-                           <TableColumn fx:id="col_ab_publishedDate" prefWidth="256.7999267578125" text="Published Year" />
+                           <TableColumn fx:id="col_ab_bookTitle" prefWidth="198.40002822875977" text="Title" />
+                           <TableColumn fx:id="col_ab_author" prefWidth="166.40000915527344" text="Author" />
+                     <TableColumn fx:id="col_ab_category" prefWidth="166.4000244140625" text="Category" />
+                     <TableColumn fx:id="col_ab_publishedDate" prefWidth="172.00003662109373" text="Published Year" />
                         </columns>
                      </TableView>
                   </AnchorPane>
@@ -102,19 +102,27 @@
                   <Button alignment="CENTER" contentDisplay="CENTER" layoutX="423.0" layoutY="537.0" mnemonicParsing="false" onAction="#takeBook" prefHeight="26.0" prefWidth="175.0" style="-fx-background-color: #0dbf8a;" styleClass="take-btn" stylesheets="@../style/dashboardDesign.css" text="Take" />
                   <Button alignment="CENTER" contentDisplay="CENTER" layoutX="122.0" layoutY="537.0" mnemonicParsing="false" onAction="#takeBook" prefHeight="26.0" prefWidth="175.0" style="-fx-background-color: #e8202a;" styleClass="take-btn" stylesheets="@../style/dashboardDesign.css" text="Return" />
                </AnchorPane>
-         <Pane fx:id="dashboard" prefHeight="600.0" prefWidth="762.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <AnchorPane fx:id="dashboard" prefHeight="600.0" prefWidth="762.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-               <TextField layoutX="545.0" layoutY="47.0" prefHeight="27.0" prefWidth="183.0" promptText="search" styleClass="search" stylesheets="@../style/designLogin.css" />
-               <Label layoutX="57.0" layoutY="25.0" text="Dashboard">
-                  <font>
-                     <Font size="24.0" />
-                  </font>
-               </Label>
-               <HBox alignment="CENTER_LEFT" layoutX="45.0" layoutY="72.0" prefHeight="92.0" prefWidth="661.0" spacing="50.0">
+               <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <children>
+                     <TextField mouseTransparent="true" prefHeight="27.0" prefWidth="183.0" promptText="search" styleClass="search" stylesheets="@../style/designLogin.css" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="31.0">
+                        <cursor>
+                           <Cursor fx:constant="TEXT" />
+                        </cursor>
+                     </TextField>
+                     <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="723.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="38.0">
+                        <image>
+                           <Image url="@../image/search.png" />
+                        </image>
+                     </ImageView>
+                  </children>
+               </AnchorPane>
+               <HBox alignment="CENTER_LEFT" prefHeight="92.0" prefWidth="661.0" spacing="50.0">
                   <children>
                      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                         <children>
-                           <Label text="22000" textFill="#2a73ff">
+                           <Label fx:id="total_books" text="22000" textFill="#2a73ff">
                               <font>
                                  <Font name="System Bold" size="26.0" />
                               </font>
@@ -124,7 +132,7 @@
                      </VBox>
                      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                         <children>
-                           <Label text="1500" textFill="#26bfbc">
+                           <Label fx:id="issued_books" text="1500" textFill="#26bfbc">
                               <font>
                                  <Font name="System Bold" size="26.0" />
                               </font>
@@ -134,7 +142,7 @@
                      </VBox>
                      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                         <children>
-                           <Label text="1000" textFill="#fa5f7e">
+                           <Label fx:id="available_books" text="1000" textFill="#fa5f7e">
                               <font>
                                  <Font name="System Bold" size="26.0" />
                               </font>
@@ -144,51 +152,36 @@
                      </VBox>
                   </children>
                </HBox>
-               <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="190.0" prefHeight="42.0" prefWidth="746.0" spacing="80.0" style="-fx-background-color: #F3F3F3;">
+               <AnchorPane prefHeight="200.0" prefWidth="762.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
                   <children>
-                     <Label text="Book Title">
-                        <HBox.margin>
-                           <Insets left="50.0" />
-                        </HBox.margin>
-                     </Label>
-                     <Label text="Author">
-                        <HBox.margin>
-                           <Insets />
-                        </HBox.margin>
-                     </Label>
-                     <Label text="User">
-                        <HBox.margin>
-                           <Insets />
-                        </HBox.margin>
-                     </Label>
-                     <Label text="Issue Date">
-                        <HBox.margin>
-                           <Insets />
-                        </HBox.margin>
-                     </Label>
-                     <Label text="Return Date">
-                        <HBox.margin>
-                           <Insets />
-                        </HBox.margin>
-                     </Label>
+                     <TableView fx:id="totalBooks_tableView" onMouseClicked="#selectBooks" prefHeight="490.0" prefWidth="732.0" style="-fx-background-color: #f5f5f5;" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="13.0">
+                       <columns>
+                         <TableColumn fx:id="col_tb_bookTitle" minWidth="183.0" prefWidth="75.0" text="Title" />
+                         <TableColumn fx:id="col_tb_bookAuthor" minWidth="183.0" prefWidth="75.0" text="Author" />
+                           <TableColumn fx:id="col_tb_bookCategory" minWidth="183.0" prefWidth="75.0" text="Category" />
+                           <TableColumn fx:id="col_tb_bookPublishedYear" minWidth="183.0" prefWidth="75.0" text="Published Year" />
+                       </columns>
+                     </TableView>
                   </children>
-               </HBox>
-               <ScrollPane layoutX="14.0" layoutY="232.0" prefHeight="357.0" prefWidth="730.0" stylesheets="@../style/designLogin.css">
-                  <content>
-                     <VBox fx:id="items" prefHeight="318.0" prefWidth="730.0" spacing="5.0">
-                        <padding>
-                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                        </padding>
-                     </VBox>
-                  </content>
-               </ScrollPane>
-               <ImageView fitHeight="17.0" fitWidth="16.0" layoutX="704.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                     <Image url="@../image/search.png" />
-                  </image>
-               </ImageView>
+               </AnchorPane>
             </children>
-         </Pane>
+         </AnchorPane>
+         <AnchorPane fx:id="issued_books_form" layoutX="10.0" layoutY="10.0" prefHeight="498.0" prefWidth="762.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+               <AnchorPane layoutX="268.0" layoutY="13.0" prefHeight="472.0" prefWidth="480.0" styleClass="card-form" stylesheets="@../style/dashboardDesign.css" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="13.0">
+                  <children>
+                     <TableView fx:id="issuedBooks_tableView" layoutX="14.0" layoutY="14.0" onMouseClicked="#selectBooks" prefHeight="443.0" prefWidth="458.0" style="-fx-border-color: none; -fx-background-color: #f5f5f5;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+                        <columns>
+                           <TableColumn fx:id="col_ib_bookTitle" prefWidth="198.40002822875977" text="Title" />
+                           <TableColumn fx:id="col_ib_author" prefWidth="166.40000915527344" text="Author" />
+                           <TableColumn fx:id="col_ib_category" prefWidth="166.4000244140625" text="Category" />
+                           <TableColumn fx:id="col_ib_publishedDate" prefWidth="172.00003662109373" text="Published Year" />
+                        </columns>
+                     </TableView>
+                  </children>
+               </AnchorPane>
+            </children>
+         </AnchorPane>
             </AnchorPane>
          </center>
    <left>
@@ -216,16 +209,6 @@
                <Insets left="50.0" />
             </padding>
          </Button>
-         <Button alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#navButtonDesign" prefHeight="42.0" prefWidth="259.0" text="User Info">
-            <graphic>
-               <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                  <Image url="@../image/user.png" />
-               </ImageView>
-            </graphic>
-            <padding>
-               <Insets left="50.0" />
-            </padding>
-         </Button>
          <Button fx:id="availableBooks_btn" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#navButtonDesign" prefHeight="42.0" prefWidth="259.0" text="Available Books">
             <graphic>
                <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
@@ -236,10 +219,20 @@
                <Insets left="50.0" />
             </padding>
          </Button>
-         <Button alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#navButtonDesign" prefHeight="42.0" prefWidth="259.0" text="Issued Books">
+         <Button fx:id="issued_btn" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#navButtonDesign" prefHeight="42.0" prefWidth="259.0" text="Issued Books">
             <graphic>
                <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                   <Image url="@../image/issued-book.png" />
+               </ImageView>
+            </graphic>
+            <padding>
+               <Insets left="50.0" />
+            </padding>
+         </Button>
+         <Button alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#navButtonDesign" prefHeight="42.0" prefWidth="259.0" text="User Info">
+            <graphic>
+               <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                  <Image url="@../image/user.png" />
                </ImageView>
             </graphic>
             <padding>

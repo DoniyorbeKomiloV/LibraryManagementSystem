@@ -16,6 +16,6 @@
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="libraryManagement" >
     <param name="requiredFXVersion" value="8.0+"/>
   </applet-desc>
-  <jfx:javafx-desc  width="800" height="600" main-class="librarymanagement.LibraryManagement"  name="libraryManagement" />
+  <jfx:javafx-desc width="800" height="600" main-class="controllers.LibraryManagement" name="libraryManagement" />
   <update check="always"/>
 </jnlp>

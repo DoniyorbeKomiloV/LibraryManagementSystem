@@ -1,30 +1,20 @@
 package controllers;
 
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import utils.Database;
-import librarymanagement.getData;
 
-import javax.swing.*;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
     
@@ -38,25 +28,21 @@ public class LoginController implements Initializable {
     private Button login_Btn;
 
 
-    private Connection connect;
-    private PreparedStatement prepare;
-    private ResultSet result;
     private String MAIN = "../fxml/dashboard.fxml";
-    
-    private double x = 0;
-    private double y = 0;
+    LibraryManagement libraryManagement = new LibraryManagement();
 
     public void login(){
         String sql = "SELECT * FROM library_user WHERE id_number = ? and password = ?";
-        
-        connect = Database.connectDB();
+
+        Connection connect = Database.connectDB();
         
         try{
-            
-            prepare = connect.prepareStatement(sql);
+
+            assert connect != null;
+            PreparedStatement prepare = connect.prepareStatement(sql);
             prepare.setString(1, id_number.getText());
             prepare.setString(2, password.getText());
-            result = prepare.executeQuery();
+            ResultSet result = prepare.executeQuery();
             Alert alert;
             
             if(id_number.getText().isEmpty() || password.getText().isEmpty()){
@@ -70,8 +56,9 @@ public class LoginController implements Initializable {
                 if(result.next()){
                     if(result.getString("role").equals("A")){
                         MAIN = "../fxml/admin_dashboard.fxml";
-                        System.out.println("Hello");
                     }
+                    getData.first_name = result.getString(2);
+                    getData.last_name = result.getString(3);
                     getData.id_number = id_number.getText();
                     
                     alert = new Alert(AlertType.INFORMATION);
@@ -82,29 +69,8 @@ public class LoginController implements Initializable {
 
 
                     login_Btn.getScene().getWindow().hide();
+                    libraryManagement.setStage(MAIN);
 
-                    Parent root = FXMLLoader.load(getClass().getResource(MAIN));
-                    
-                    Stage stage = new Stage();
-                    
-                    Scene scene = new Scene(root);
-                    
-                    root.setOnMousePressed((MouseEvent event) ->{
-                        
-                        x = event.getSceneX();
-                        y = event.getSceneY();
-                        
-                    });
-                    
-                    root.setOnMouseDragged((MouseEvent event) ->{
-                       
-                        stage.setX(event.getScreenX() - x);
-                        stage.setY(event.getScreenY() - y);
-                        
-                    });
-                    
-                    stage.setScene(scene);
-                    stage.show();
                     
                 }else{
                     alert = new Alert(AlertType.ERROR);
