@@ -205,7 +205,7 @@ public class HomeController implements Initializable {
         category.setCellValueFactory(new PropertyValueFactory<>("category"));
     }
     public void showAvailableBooks() {
-        ObservableList<availableBooks> listBook = bookList("SELECT * FROM library_book WHERE check_status='R'");
+        ObservableList<availableBooks> listBook = bookList("SELECT * FROM library_book WHERE check_status='R' ORDER BY title ASC ");
 
         setTableValues(col_ab_bookTitle, col_ab_author, col_ab_publishedDate, col_ab_category);
 
@@ -213,21 +213,21 @@ public class HomeController implements Initializable {
 
     }
     public void showTotalBooks() {
-        ObservableList<availableBooks> listBook = bookList("SELECT * FROM library_book");
+        ObservableList<availableBooks> listBook = bookList("SELECT * FROM library_book ORDER BY title ASC");
 
         setTableValues(col_tb_bookTitle, col_tb_bookAuthor, col_tb_bookPublishedYear, col_tb_bookCategory);
 
         totalBooks_tableView.setItems(listBook);
 
     }
-//    public void showIssuedBooks() {
-//        ObservableList<availableBooks> listBook = bookList("SELECT * FROM library_book WHERE check_status='NR'");
-//
-//        setTableValues(col_ib_bookTitle, col_ib_author, col_ib_publishedDate, col_ib_category);
-//
-//        totalBooks_tableView.setItems(listBook);
-//
-//    }
+    public void showIssuedBooks() {
+        ObservableList<availableBooks> listBook = bookList("SELECT * FROM library_book WHERE check_status='NR' ORDER BY title ASC");
+
+        setTableValues(col_ib_bookTitle, col_ib_author, col_ib_publishedDate, col_ib_category);
+
+        issuedBooks_tableView.setItems(listBook);
+
+    }
     public void selectBooks() {
 
         availableBooks bookData = totalBooks_tableView.getSelectionModel().getSelectedItem();
@@ -277,7 +277,7 @@ public class HomeController implements Initializable {
         setBooksCount(sql3, available_books);
         showAvailableBooks();
         showTotalBooks();
-//        showIssuedBooks();
+        showIssuedBooks();
         studentNumber();
 
 
