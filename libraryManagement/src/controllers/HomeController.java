@@ -22,6 +22,16 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
+    @FXML
+    private Label title;
+    @FXML
+    private Label author;
+    @FXML
+    private Label published_year;
+    @FXML
+    private Label description;
+    @FXML
+    private Label category;
 
     @FXML
     private Label studentNumber_label;
@@ -62,6 +72,8 @@ public class HomeController implements Initializable {
     private TableColumn<availableBooks, String> col_ab_category;
     @FXML
     private AnchorPane issued_books_form;
+    @FXML
+    private AnchorPane take_book_form;
 
     @FXML
     private TableView<availableBooks> issuedBooks_tableView;
@@ -91,6 +103,8 @@ public class HomeController implements Initializable {
     private TableColumn<availableBooks, String> col_tb_bookCategory;
     @FXML
     private Button available_refresh;
+    @FXML
+    private Button showInfo;
     @FXML
     private Button dashboard_refresh;
     @FXML
@@ -136,26 +150,27 @@ public class HomeController implements Initializable {
         String current_date = dtf.format(now);
         Date date = new Date();
         new java.sql.Date(date.getTime());
-
-        String sql = "INSERT INTO library_take VALUES (?,?,?,?,?,?)";
-        String sql1 = "SELECT user  WHERE id_number = " + getData.id_number;
+        String sql1 = "SELECT * FROM library_user WHERE id_number="+getData.id_number;
+        String sql = "INSERT INTO library_take(issued_at, return_at, book_id, user_id) VALUES (?,?,?,?)";
 
         connect = utils.Database.connectDB();
+        int user_id = 1;
 
         try {
 
             Alert alert;
             assert connect != null;
+
             prepare = connect.prepareStatement(sql1);
             result = prepare.executeQuery();
-            int user_id = result.getInt(1);
-
+            while (result.next()){
+                user_id = result.getInt(1);
+            }
             prepare = connect.prepareStatement(sql);
+            prepare.setString(1, current_date);
             prepare.setString(2, current_date);
-            prepare.setString(3, current_date);
-            prepare.setString(4, "NR");
-            prepare.setInt(5, 1);
-            prepare.setInt(6, user_id);
+            prepare.setString(3, getData.savedTitle);
+            prepare.setString(4, getData.id_number);
             prepare.executeUpdate();
 
             alert = new Alert(AlertType.INFORMATION);
@@ -163,8 +178,6 @@ public class HomeController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Successfully take the book!");
             alert.showAndWait();
-
-//            clearTakeData();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -193,14 +206,17 @@ public class HomeController implements Initializable {
 
     public void navButtonDesign(ActionEvent event) {
         if (event.getSource() == availableBooks_btn) {
-            setVisible(availableBooks_form, new Node[]{dashboard, issued_books_form});
+            setVisible(availableBooks_form, new Node[]{dashboard, issued_books_form, take_book_form});
         }
         if (event.getSource() == dashboard_btn) {
-            setVisible(dashboard, new Node[]{availableBooks_form, issued_books_form});
+            setVisible(dashboard, new Node[]{availableBooks_form, issued_books_form, take_book_form});
         }
         if (event.getSource() == issued_btn) {
-            setVisible(issued_books_form, new Node[]{availableBooks_form, dashboard});
+            setVisible(issued_books_form, new Node[]{availableBooks_form, dashboard, take_book_form});
         }
+//        if(event.getSource() == showInfo){
+//            selectBooks();
+//        }
     }
 
     public void setTableValues(TableColumn<availableBooks, String> title, TableColumn<availableBooks, String> author, TableColumn<availableBooks, String> date, TableColumn<availableBooks, String> category){
@@ -233,6 +249,22 @@ public class HomeController implements Initializable {
         issuedBooks_tableView.setItems(listBook);
 
     }
+//    public void removeFromIssued(){
+//        String sql = "";
+//        connect = utils.Database.connectDB();
+//        try{
+//            assert connect != null;
+//            prepare = connect.prepareStatement(sql);
+//            if(prepare.isClosed()){
+//
+//            }
+//            prepare.executeQuery();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//
+//
+//    }
     public void refresh(ActionEvent event){
         String sql1 = "SELECT COUNT(id) FROM library_book";
         String sql2 = "SELECT COUNT(id) FROM library_book WHERE check_status='NR'";
@@ -249,23 +281,32 @@ public class HomeController implements Initializable {
         }
         if(event.getSource() == issued_refresh){
             showIssuedBooks();
+//            removeFromIssued();
         }
     }
-    public void selectBooks() {
+    public void selectBooks(ActionEvent e) {
 
-        availableBooks bookData = totalBooks_tableView.getSelectionModel().getSelectedItem();
+
+        availableBooks bookData = availableBooks_tableView.getSelectionModel().getSelectedItem();
 
         int num = availableBooks_tableView.getSelectionModel().getFocusedIndex();
 
         if ((num - 1) < -1) {
             return;
         }
-        if (bookData != null){
-
-            getData.savedTitle = bookData.getTitle();
-            getData.savedAuthor = bookData.getAuthor();
-            getData.savedPublishedDate = bookData.getDate();
-            getData.savedCategory = bookData.getCategory();
+        if (bookData != null && e.getSource() == showInfo){
+            setVisible(take_book_form, new Node[]{availableBooks_form, dashboard,issued_books_form});
+            title.setText(bookData.getTitle());
+            author.setText(bookData.getAuthor());
+            category.setText(bookData.getCategory());
+            published_year.setText(bookData.getDate());
+            description.setText(bookData.getDescription());
+        }else {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Admin Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a book");
+            alert.showAndWait();
         }
 
     }
@@ -302,7 +343,6 @@ public class HomeController implements Initializable {
         showTotalBooks();
         showIssuedBooks();
         studentName();
-
 
     }
 

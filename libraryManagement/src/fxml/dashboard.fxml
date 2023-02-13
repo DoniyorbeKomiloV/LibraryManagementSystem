@@ -22,7 +22,7 @@
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <AnchorPane fx:id="availableBooks_form" prefHeight="498.0" prefWidth="762.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <AnchorPane layoutX="268.0" layoutY="13.0" prefHeight="483.0" prefWidth="736.0" styleClass="card-form" stylesheets="@../style/dashboardDesign.css" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="13.0">
-                     <TableView fx:id="availableBooks_tableView" layoutX="14.0" layoutY="14.0" onMouseClicked="#selectBooks" prefHeight="443.0" prefWidth="458.0" style="-fx-border-color: none; -fx-background-color: #f5f5f5;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+                     <TableView fx:id="availableBooks_tableView" layoutX="14.0" layoutY="14.0" prefHeight="443.0" prefWidth="458.0" style="-fx-border-color: none; -fx-background-color: #f5f5f5;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                         <columns>
                            <TableColumn fx:id="col_ab_bookTitle" prefWidth="198.40002822875977" text="Title" />
                            <TableColumn fx:id="col_ab_author" prefWidth="166.40000915527344" text="Author" />
@@ -38,7 +38,7 @@
                         <Insets right="100.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" styleClass="show_info" stylesheets="@../style/designLogin.css" text="Show Info">
+                  <Button fx:id="showInfo" mnemonicParsing="false" onAction="#selectBooks" styleClass="show_info" stylesheets="@../style/designLogin.css" text="Show Info">
                      <HBox.margin>
                         <Insets left="100.0" />
                      </HBox.margin>
@@ -46,7 +46,7 @@
                </children>
             </HBox>
                </AnchorPane>
-               <AnchorPane prefHeight="600.0" prefWidth="762.0" visible="false">
+               <AnchorPane fx:id="take_book_form" prefHeight="600.0" prefWidth="762.0" visible="false">
                   <GridPane alignment="CENTER" prefHeight="500.0" prefWidth="762.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="433.6000122070312" minWidth="10.0" prefWidth="143.80000381469728" />
@@ -86,27 +86,27 @@
                            <Font size="20.0" />
                         </font>
                      </Label>
-                     <Label layoutX="86.0" layoutY="41.0" text="Programming" GridPane.columnIndex="2">
+                     <Label fx:id="title" layoutX="86.0" layoutY="41.0" text="Programming" GridPane.columnIndex="2">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Label>
-                     <Label layoutX="480.0" layoutY="44.0" text="John Smith" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <Label fx:id="author" layoutX="480.0" layoutY="44.0" text="John Smith" GridPane.columnIndex="2" GridPane.rowIndex="1">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Label>
-                     <Label layoutX="480.0" layoutY="135.0" text="Programming" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <Label fx:id="category" layoutX="480.0" layoutY="135.0" text="Programming" GridPane.columnIndex="2" GridPane.rowIndex="2">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Label>
-                     <Label layoutX="480.0" layoutY="226.0" text="2000" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                     <Label fx:id="published_year" layoutX="480.0" layoutY="226.0" text="2000" GridPane.columnIndex="2" GridPane.rowIndex="3">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Label>
-                     <Label layoutX="480.0" layoutY="317.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porttitor nunc dui, sit amet tincidunt lacus condimentum ut. Integer eu eros sit amet enim lacinia pellentesque quis non risus. Proin vulputate, sem ut facilisis dapibus, erat arcu molestie ante, et venenatis odio nunc ac nunc. Donec enim augue, mattis aliquet ipsum vitae, auctor sollicitudin urna. Suspendisse sed est quis libero pretium faucibus. Ut accumsan mauris ligula, sodales auctor augue bibendum ac. Etiam urna velit, consectetur ac mauris sit amet, feugiat accumsan dui. Nulla bibendum dolor sagittis tempor varius. Aliquam blandit imperdiet est, eget pellentesque enim auctor eu. Phasellus suscipit neque vitae ante posuere dapibus. Mauris sed turpis eget sem sagittis sagittis. In elementum interdum orci eu tincidunt. Nullam scelerisque tristique commodo." wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                     <Label fx:id="description" layoutX="480.0" layoutY="317.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porttitor nunc dui, sit amet tincidunt lacus condimentum ut. Integer eu eros sit amet enim lacinia pellentesque quis non risus. Proin vulputate, sem ut facilisis dapibus, erat arcu molestie ante, et venenatis odio nunc ac nunc. Donec enim augue, mattis aliquet ipsum vitae, auctor sollicitudin urna. Suspendisse sed est quis libero pretium faucibus. Ut accumsan mauris ligula, sodales auctor augue bibendum ac. Etiam urna velit, consectetur ac mauris sit amet, feugiat accumsan dui. Nulla bibendum dolor sagittis tempor varius. Aliquam blandit imperdiet est, eget pellentesque enim auctor eu. Phasellus suscipit neque vitae ante posuere dapibus. Mauris sed turpis eget sem sagittis sagittis. In elementum interdum orci eu tincidunt. Nullam scelerisque tristique commodo." wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
                         <font>
                            <Font size="16.0" />
                         </font>
@@ -115,7 +115,7 @@
                   <Button alignment="CENTER" contentDisplay="CENTER" layoutX="423.0" layoutY="537.0" mnemonicParsing="false" onAction="#takeBook" prefHeight="26.0" prefWidth="175.0" style="-fx-background-color: #0dbf8a;" styleClass="take-btn" stylesheets="@../style/dashboardDesign.css" text="Take" />
                   <Button alignment="CENTER" contentDisplay="CENTER" layoutX="122.0" layoutY="537.0" mnemonicParsing="false" onAction="#takeBook" prefHeight="26.0" prefWidth="175.0" style="-fx-background-color: #e8202a;" styleClass="take-btn" stylesheets="@../style/dashboardDesign.css" text="Return" />
                </AnchorPane>
-         <AnchorPane fx:id="dashboard" prefHeight="600.0" prefWidth="762.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <AnchorPane fx:id="dashboard" prefHeight="600.0" prefWidth="762.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                <AnchorPane prefHeight="104.0" prefWidth="762.0" AnchorPane.bottomAnchor="496.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <children>
@@ -163,7 +163,7 @@
                </HBox>
                <AnchorPane prefHeight="420.0" prefWidth="762.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
                   <children>
-                     <TableView fx:id="totalBooks_tableView" onMouseClicked="#selectBooks" prefHeight="490.0" prefWidth="732.0" style="-fx-background-color: #f5f5f5;" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="13.0">
+                     <TableView fx:id="totalBooks_tableView" prefHeight="490.0" prefWidth="732.0" style="-fx-background-color: #f5f5f5;" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="13.0">
                        <columns>
                          <TableColumn fx:id="col_tb_bookTitle" minWidth="183.0" prefWidth="75.0" text="Title" />
                          <TableColumn fx:id="col_tb_bookAuthor" minWidth="183.0" prefWidth="75.0" text="Author" />
@@ -176,11 +176,11 @@
                <Button fx:id="dashboard_refresh" layoutX="341.0" layoutY="544.0" mnemonicParsing="false" onAction="#refresh" styleClass="login_btn" stylesheets="@../style/designLogin.css" text="Refresh" />
             </children>
          </AnchorPane>
-         <AnchorPane fx:id="issued_books_form" layoutX="10.0" layoutY="10.0" prefHeight="498.0" prefWidth="762.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <AnchorPane fx:id="issued_books_form" layoutX="10.0" layoutY="10.0" prefHeight="498.0" prefWidth="762.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                <AnchorPane layoutX="268.0" layoutY="13.0" prefHeight="521.0" prefWidth="736.0" styleClass="card-form" stylesheets="@../style/dashboardDesign.css" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="13.0">
                   <children>
-                     <TableView fx:id="issuedBooks_tableView" layoutX="14.0" layoutY="14.0" onMouseClicked="#selectBooks" prefHeight="443.0" prefWidth="458.0" style="-fx-border-color: none; -fx-background-color: #f5f5f5;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+                     <TableView fx:id="issuedBooks_tableView" layoutX="14.0" layoutY="14.0" prefHeight="443.0" prefWidth="458.0" style="-fx-border-color: none; -fx-background-color: #f5f5f5;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                         <columns>
                            <TableColumn fx:id="col_ib_bookTitle" prefWidth="198.40002822875977" text="Title" />
                            <TableColumn fx:id="col_ib_author" prefWidth="166.40000915527344" text="Author" />
