@@ -21,7 +21,7 @@
          <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <AnchorPane fx:id="availableBooks_form" prefHeight="498.0" prefWidth="762.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                  <AnchorPane layoutX="268.0" layoutY="13.0" prefHeight="472.0" prefWidth="480.0" styleClass="card-form" stylesheets="@../style/dashboardDesign.css" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="13.0">
+                  <AnchorPane layoutX="268.0" layoutY="13.0" prefHeight="483.0" prefWidth="736.0" styleClass="card-form" stylesheets="@../style/dashboardDesign.css" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="13.0">
                      <TableView fx:id="availableBooks_tableView" layoutX="14.0" layoutY="14.0" onMouseClicked="#selectBooks" prefHeight="443.0" prefWidth="458.0" style="-fx-border-color: none; -fx-background-color: #f5f5f5;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                         <columns>
                            <TableColumn fx:id="col_ab_bookTitle" prefWidth="198.40002822875977" text="Title" />
@@ -31,6 +31,20 @@
                         </columns>
                      </TableView>
                   </AnchorPane>
+            <HBox alignment="CENTER" layoutX="13.0" layoutY="496.0" prefHeight="100.0" prefWidth="736.0">
+               <children>
+                  <Button fx:id="available_refresh" mnemonicParsing="false" onAction="#refresh" styleClass="login_btn" stylesheets="@../style/designLogin.css" text="Refresh">
+                     <HBox.margin>
+                        <Insets right="100.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" styleClass="show_info" stylesheets="@../style/designLogin.css" text="Show Info">
+                     <HBox.margin>
+                        <Insets left="100.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
                </AnchorPane>
                <AnchorPane prefHeight="600.0" prefWidth="762.0" visible="false">
                   <GridPane alignment="CENTER" prefHeight="500.0" prefWidth="762.0">
@@ -101,7 +115,7 @@
                   <Button alignment="CENTER" contentDisplay="CENTER" layoutX="423.0" layoutY="537.0" mnemonicParsing="false" onAction="#takeBook" prefHeight="26.0" prefWidth="175.0" style="-fx-background-color: #0dbf8a;" styleClass="take-btn" stylesheets="@../style/dashboardDesign.css" text="Take" />
                   <Button alignment="CENTER" contentDisplay="CENTER" layoutX="122.0" layoutY="537.0" mnemonicParsing="false" onAction="#takeBook" prefHeight="26.0" prefWidth="175.0" style="-fx-background-color: #e8202a;" styleClass="take-btn" stylesheets="@../style/dashboardDesign.css" text="Return" />
                </AnchorPane>
-         <AnchorPane fx:id="dashboard" prefHeight="600.0" prefWidth="762.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <AnchorPane fx:id="dashboard" prefHeight="600.0" prefWidth="762.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                <AnchorPane prefHeight="104.0" prefWidth="762.0" AnchorPane.bottomAnchor="496.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <children>
@@ -147,7 +161,7 @@
                      </VBox>
                   </children>
                </HBox>
-               <AnchorPane prefHeight="200.0" prefWidth="762.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+               <AnchorPane prefHeight="420.0" prefWidth="762.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
                   <children>
                      <TableView fx:id="totalBooks_tableView" onMouseClicked="#selectBooks" prefHeight="490.0" prefWidth="732.0" style="-fx-background-color: #f5f5f5;" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="13.0">
                        <columns>
@@ -159,11 +173,12 @@
                      </TableView>
                   </children>
                </AnchorPane>
+               <Button fx:id="dashboard_refresh" layoutX="341.0" layoutY="544.0" mnemonicParsing="false" onAction="#refresh" styleClass="login_btn" stylesheets="@../style/designLogin.css" text="Refresh" />
             </children>
          </AnchorPane>
-         <AnchorPane fx:id="issued_books_form" layoutX="10.0" layoutY="10.0" prefHeight="498.0" prefWidth="762.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <AnchorPane fx:id="issued_books_form" layoutX="10.0" layoutY="10.0" prefHeight="498.0" prefWidth="762.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-               <AnchorPane layoutX="268.0" layoutY="13.0" prefHeight="472.0" prefWidth="480.0" styleClass="card-form" stylesheets="@../style/dashboardDesign.css" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="13.0">
+               <AnchorPane layoutX="268.0" layoutY="13.0" prefHeight="521.0" prefWidth="736.0" styleClass="card-form" stylesheets="@../style/dashboardDesign.css" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="13.0">
                   <children>
                      <TableView fx:id="issuedBooks_tableView" layoutX="14.0" layoutY="14.0" onMouseClicked="#selectBooks" prefHeight="443.0" prefWidth="458.0" style="-fx-border-color: none; -fx-background-color: #f5f5f5;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                         <columns>
@@ -175,6 +190,7 @@
                      </TableView>
                   </children>
                </AnchorPane>
+               <Button fx:id="issued_refresh" layoutX="341.0" layoutY="549.0" mnemonicParsing="false" onAction="#refresh" styleClass="login_btn" stylesheets="@../style/designLogin.css" text="Refresh" />
             </children>
          </AnchorPane>
             </AnchorPane>

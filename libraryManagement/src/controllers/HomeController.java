@@ -89,7 +89,12 @@ public class HomeController implements Initializable {
     private TableColumn<availableBooks, String> col_tb_bookPublishedYear;
     @FXML
     private TableColumn<availableBooks, String> col_tb_bookCategory;
-
+    @FXML
+    private Button available_refresh;
+    @FXML
+    private Button dashboard_refresh;
+    @FXML
+    private Button issued_refresh;
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet result;
@@ -228,6 +233,24 @@ public class HomeController implements Initializable {
         issuedBooks_tableView.setItems(listBook);
 
     }
+    public void refresh(ActionEvent event){
+        String sql1 = "SELECT COUNT(id) FROM library_book";
+        String sql2 = "SELECT COUNT(id) FROM library_book WHERE check_status='NR'";
+        String sql3 = "SELECT COUNT(id) FROM library_book WHERE check_status='R'";
+
+        setBooksCount(sql1, total_books);
+        setBooksCount(sql2, issued_books);
+        setBooksCount(sql3, available_books);
+        if(event.getSource() == available_refresh){
+            showAvailableBooks();
+        }
+        if(event.getSource() == dashboard_refresh){
+            showTotalBooks();
+        }
+        if(event.getSource() == issued_refresh){
+            showIssuedBooks();
+        }
+    }
     public void selectBooks() {
 
         availableBooks bookData = totalBooks_tableView.getSelectionModel().getSelectedItem();
@@ -247,7 +270,7 @@ public class HomeController implements Initializable {
 
     }
 
-    public void studentNumber() {
+    public void studentName() {
         studentNumber_label.setText(getData.first_name + " " + getData.last_name);
     }
 
@@ -278,7 +301,7 @@ public class HomeController implements Initializable {
         showAvailableBooks();
         showTotalBooks();
         showIssuedBooks();
-        studentNumber();
+        studentName();
 
 
     }

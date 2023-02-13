@@ -116,20 +116,20 @@ and open the template in the editor.
     -fx-background-color: #ccc;
 }
 
-/*
+
 .green-button{
     -fx-font-size: 15;
     -fx-text-fill: #ffffff;
     -fx-background-color: #00bd3c;
     -fx-background-radius: 5;
 }
-.red-button{
-    -fx-font-size: 15;
-    -fx-text-fill: #ffffff;
-    -fx-background-color: #f72525;
-    -fx-background-radius: 5;
-}
-*/
+/*.red-button{*/
+/*    -fx-font-size: 15;*/
+/*    -fx-text-fill: #ffffff;*/
+/*    -fx-background-color: #f72525;*/
+/*    -fx-background-radius: 5;*/
+/*}*/
+
 .text-field {
     -fx-background-color: #ffffff;
     -fx-border-color: -fill;
@@ -168,6 +168,18 @@ and open the template in the editor.
 }
 .login_btn:pressed{
     -fx-background-color : #00bd3c;
+}
+.show_info{
+    -fx-font-size: 15;
+    -fx-text-fill: #ffffff;
+    -fx-background-color:  #42aaf5;
+    -fx-background-radius: 5;
+}
+.show_info:hover{
+    -fx-background-color : #8aceff;
+}
+.show_info:pressed{
+    -fx-background-color : #42aaf5;
 }
 .scroll-pane {
     -fx-background-color:  #F3F3F3;
