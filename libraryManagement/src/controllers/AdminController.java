@@ -1,13 +1,46 @@
 package controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
-public class AdminController {
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ResourceBundle;
+
+public class AdminController implements Initializable {
+
+    @FXML
+    private TextField editTitle;
+    @FXML
+    private TextField editAuthor;
+    @FXML
+    private TextField editYear;
+    @FXML
+    private TextField editCategory;
+    @FXML
+    private TextArea editDescription;
+    @FXML
+    private Button cancelEdit;
+    @FXML
+    private Button clearEdit;
+    @FXML
+    private Button saveEdit;
+    @FXML
+    private AnchorPane EditBookPage;
+    @FXML
+    private Label last_name;
+    @FXML
+    private Label first_name;
     @FXML
     private TextField searchText;
     @FXML
@@ -33,9 +66,7 @@ public class AdminController {
     private Button save;
 
     @FXML
-    private TableView allBooks;
-    @FXML
-    private TextField id;
+    private TableView<AllBooks> allBooks;
     @FXML
     private TextField title;
     @FXML
@@ -47,51 +78,62 @@ public class AdminController {
     @FXML
     private TextArea description;
     @FXML
-    private TableColumn tableId;
+    private TableColumn<AllBooks, String> tableId;
     @FXML
-    private TableColumn tableTitle;
+    private TableColumn<AllBooks, String> tableTitle;
     @FXML
-    private TableColumn tableCategory;
+    private TableColumn<AllBooks, String> tableCategory;
     @FXML
-    private TableColumn tableAuthor;
+    private TableColumn<AllBooks, String> tableAuthor;
     @FXML
-    private TableColumn tableYear;
+    private TableColumn<AllBooks, String> tableYear;
     @FXML
-    private TableColumn tableDescription;
+    private TableColumn<AllBooks, String> tableDescription;
     @FXML
-    private TableColumn tableStatus;
+    private TableColumn<AllBooks, String> tableStatus;
 
     public void clear(){
-        id.setText("");
         title.setText("");
         author.setText("");
         year.setText("");
         category.setText("");
         description.setText("");
     }
-    // Changes visibility on editBook and addBook pages
     public void AddBook(ActionEvent actionEvent) {
         if (actionEvent.getSource() == save){
             // check the info and save the book or return error
 
-            //return to main page
             clear();
             mainTitle.setText("All Books");
             AllBooksPage.setVisible(true);
             AddBookPage.setVisible(false);
+            EditBookPage.setVisible(false);
             searchText.setVisible(true);
             searchIcon.setVisible(true);
         } else if (actionEvent.getSource() == clear){
-            // clear the fields
             clear();
         } else if (actionEvent.getSource() == cancel){
-            //clear the fields and return to main page
             clear();
             mainTitle.setText("All Books");
             AllBooksPage.setVisible(true);
             AddBookPage.setVisible(false);
+            EditBookPage.setVisible(false);
             searchText.setVisible(true);
             searchIcon.setVisible(true);
+        }
+    }
+
+    public void EditBookButtonControl(ActionEvent actionEvent){
+        if (actionEvent.getSource() == saveEdit){
+
+        } else if (actionEvent.getSource() == clearEdit){
+            editTitle.setText("");
+            editAuthor.setText("");
+            editCategory.setText("");
+            editYear.setText("");
+            editDescription.setText("");
+        } else if (actionEvent.getSource() == cancelEdit) {
+
         }
     }
     // changes visibility on MainPage
@@ -100,23 +142,114 @@ public class AdminController {
             mainTitle.setText("Add New Book");
             AllBooksPage.setVisible(false);
             AddBookPage.setVisible(true);
+            EditBookPage.setVisible(false);
             searchText.setVisible(false);
             searchIcon.setVisible(false);
         } else if(actionEvent.getSource() == editBook){
-            mainTitle.setText("Edit Book Info");
-            System.out.println(allBooks.getSelectionModel().getSelectedItems());
-            searchText.setVisible(false);
-            searchIcon.setVisible(false);
+            AllBooks bookData = allBooks.getSelectionModel().getSelectedItem();
+            if (bookData == null){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("System error found!");
+                alert.setHeaderText(null);
+                alert.setContentText("Please, Select a book to edit!");
+                alert.showAndWait();
+                return;
+            }else {
+                bookData = allBooks.getSelectionModel().getSelectedItem();
+                System.out.println(bookData.getAuthor());
+                mainTitle.setText("Edit Book Info");
+                editTitle.setText(bookData.getTitle());
+                editYear.setText(bookData.getYear());
+                editCategory.setText(bookData.getCategory());
+                editAuthor.setText(bookData.getAuthor());
+                editDescription.setText(bookData.getDescription());
+                searchText.setVisible(false);
+                searchIcon.setVisible(false);
+                AllBooksPage.setVisible(false);
+                AddBookPage.setVisible(false);
+                EditBookPage.setVisible(true);
+            }
         } else if (actionEvent.getSource() == deleteBook){
-            mainTitle.setText("All Books");
-            System.out.println(allBooks.getSelectionModel().getSelectedItems());
+            AllBooks bookData = allBooks.getSelectionModel().getSelectedItem();
+            if (bookData == null){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("System error found!");
+                alert.setHeaderText(null);
+                alert.setContentText("Please, Select a book to edit!");
+                alert.showAndWait();
+            }else {
+                mainTitle.setText("All Books");
+
+            }
         }
     }
+
+
     public void search(KeyEvent keyEvent){
         // to check the input data is coming or not
         System.out.println(searchText.getText());
         // search ...
     }
+    public void setName(){
+        first_name.setText(getData.first_name);
+        last_name.setText(getData.last_name);
+    }
 
+    public ObservableList<AllBooks> bookList(String sql) {
+        ObservableList<AllBooks> listBooks = FXCollections.observableArrayList();
+        Connection connect = utils.Database.connectDB();
+        try {
+            AllBooks Books;
+            assert connect != null;
+            PreparedStatement prepare = connect.prepareStatement(sql);
+            ResultSet result = prepare.executeQuery();
+            while (result.next()) {
+                Books = new AllBooks(
+                        result.getInt("id"),
+                        result.getString("author"),
+                        result.getString("category"),
+                        result.getString("title"),
+                        result.getString("published_year"),
+                        result.getString("description"),
+                        result.getString("check_status")
+                );
+
+                listBooks.add(Books);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return listBooks;
+    }
+    public void setTableValues(
+            TableColumn<AllBooks, String> tableId,
+            TableColumn<AllBooks, String> tableAuthor,
+            TableColumn<AllBooks, String> tableCategory,
+            TableColumn<AllBooks, String> tableTitle,
+            TableColumn<AllBooks, String> tableYear,
+            TableColumn<AllBooks, String> tableDescription,
+            TableColumn<AllBooks, String> tableStatus
+    ){
+        tableId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tableAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
+        tableCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
+        tableTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        tableYear.setCellValueFactory(new PropertyValueFactory<>("year"));
+        tableDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        tableStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+    }
+    public void showAllBooks(){
+        ObservableList<AllBooks> listBook = bookList("SELECT * FROM library_book ORDER BY id ASC");
+
+        setTableValues(tableId, tableAuthor, tableCategory, tableTitle, tableYear, tableDescription, tableStatus);
+
+        allBooks.setItems(listBook);
+    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        setName();
+        showAllBooks();
+    }
 }
 

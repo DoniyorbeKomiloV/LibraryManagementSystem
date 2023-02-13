@@ -8,12 +8,8 @@ public class availableBooks {
     private final String author;
     private final String description;
     private final String date;
-
-    public String getCategory() {
-        return category;
-    }
-
     private final String category;
+
 
     public availableBooks(int id, String title,  String date, String description, String author, String category){
         this.id = id;
@@ -22,6 +18,10 @@ public class availableBooks {
         this.date = date;
         this.description = description;
         this.category = category;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public String getTitle(){

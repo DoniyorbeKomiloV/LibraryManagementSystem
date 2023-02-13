@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="986.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminController">
+   <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" x="10.0" y="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="5.0">
+      <Image url="@../image/avatar.png" />
+   </ImageView>
+   <Label fx:id="mainTitle" layoutX="393.0" layoutY="15.0" prefHeight="40.0" prefWidth="200.0" style="-fx-alignment: center;" text="Add Book">
+      <font>
+         <Font size="28.0" />
+      </font>
+   </Label>
+   <TextField fx:id="searchText" layoutX="710.0" layoutY="20.0" onKeyReleased="#search" prefHeight="30.0" prefWidth="250.0" promptText="search" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 15; -fx-padding: 0 0 0 35; -fx-background-radius: 15;">
+      <font>
+         <Font size="16.0" />
+      </font>
+
+         </TextField>
+   <Label fx:id="last_name" layoutX="80.0" layoutY="35.0" prefHeight="30.0" prefWidth="100.0" text="Label">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </Label>
+   <Label fx:id="first_name" layoutX="80.0" layoutY="5.0" prefHeight="30.0" prefWidth="100.0" text="Label">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </Label>
+   <ImageView fx:id="searchIcon" fitHeight="20.0" fitWidth="20.0" layoutX="720.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../image/search.png" />
+   </ImageView>
+   <AnchorPane fx:id="AllBooksPage" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="530.0" prefWidth="986.0" style="-fx-background-color: #f5f5f5;">
+      <TableView fx:id="allBooks" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" style="-fx-background-color: #f4f4f4; -fx-border-color: black;" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="20.0">
+         <columns>
+            <TableColumn fx:id="tableId" maxWidth="100.0" minWidth="50.0" prefWidth="50.0" style="-fx-border-color: black; -fx-alignment: center;" text="ID" />
+            <TableColumn fx:id="tableTitle" maxWidth="300.0" minWidth="50.0" prefWidth="160.0" style="-fx-border-color: black;" text="Title" />
+            <TableColumn fx:id="tableCategory" maxWidth="300.0" minWidth="50.0" prefWidth="160.0" style="-fx-border-color: black;" text="Category" />
+            <TableColumn fx:id="tableAuthor" maxWidth="300.0" minWidth="50.0" prefWidth="160.0" style="--fx-alignment: center; -fx-border-color: black;" text="Author" />
+            <TableColumn fx:id="tableYear" maxWidth="300.0" minWidth="50.0" prefWidth="50.0" style="-fx-border-color: black; -fx-alignment: center;" text="Year" />
+            <TableColumn fx:id="tableDescription" maxWidth="300.0" minWidth="50.0" prefWidth="300.0" style="-fx-border-color: black;" text="Description" />
+            <TableColumn fx:id="tableStatus" maxWidth="300.0" minWidth="50.0" prefWidth="40.0" style="-fx-border-color: black; -fx-alignment: center;" text="Status" />
+         </columns>
+      </TableView>
+      <Button fx:id="addBook" layoutX="243.0" layoutY="450.0" mnemonicParsing="false" onAction="#MainControl" prefHeight="40.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: black; -fx-background-radius: 10; -fx-text-fill: white; -fx-background-color: green;" text="Add book" AnchorPane.bottomAnchor="20.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="deleteBook" layoutX="643.0" layoutY="450.0" mnemonicParsing="false" onAction="#MainControl" prefHeight="40.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: black; -fx-background-radius: 10; -fx-text-fill: white; -fx-background-color: red;" text="Delete Book" AnchorPane.bottomAnchor="20.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="editBook" layoutX="443.0" layoutY="450.0" mnemonicParsing="false" onAction="#MainControl" prefHeight="40.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: black; -fx-background-radius: 10; -fx-text-fill: white; -fx-background-color: orange;" text="Edit Book" AnchorPane.bottomAnchor="20.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+   </AnchorPane>
+   <AnchorPane fx:id="AddBookPage" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="530.0" prefWidth="986.0" visible="false">
+      <Button fx:id="save" layoutX="730.0" layoutY="470.0" mnemonicParsing="false" onAction="#AddBook" prefHeight="40.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: black; -fx-background-radius: 10; -fx-text-fill: white; -fx-background-color: green;" text="Save">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="cancel" layoutX="350.0" layoutY="470.0" mnemonicParsing="false" onAction="#AddBook" prefHeight="40.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: black; -fx-background-radius: 10; -fx-text-fill: white; -fx-background-color: red;" text="Cancel">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="clear" layoutX="540.0" layoutY="470.0" mnemonicParsing="false" onAction="#AddBook" prefHeight="40.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: black; -fx-background-radius: 10; -fx-text-fill: white; -fx-background-color: orange;" text="Clear">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <GridPane layoutX="54.0" layoutY="38.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="NEVER" maxWidth="200.0" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="200.0" minWidth="100.0" percentWidth="20.0" prefWidth="150.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="-Infinity" minWidth="10.0" percentWidth="50.0" prefWidth="200.0" />
+            <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" percentWidth="15.0" prefWidth="50.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" percentHeight="18.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" percentHeight="18.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" percentHeight="18.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" percentHeight="18.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" percentHeight="28.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <Label layoutX="105.0" layoutY="47.0" text="Author" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <Label layoutX="11.0" layoutY="47.0" text="Title" GridPane.columnIndex="1">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <TextField fx:id="title" layoutX="219.0" layoutY="44.0" GridPane.columnIndex="2">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </TextField>
+         <TextField fx:id="author" layoutX="219.0" layoutY="146.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </TextField>
+         <TextField fx:id="year" layoutX="219.0" layoutY="351.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </TextField>
+         <TextField fx:id="category" layoutX="644.0" layoutY="44.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </TextField>
+         <Label layoutX="105.0" layoutY="47.0" text="Year" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <Label layoutX="531.0" layoutY="47.0" text="Category" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <Label layoutX="531.0" layoutY="149.0" text="Description" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <TextArea fx:id="description" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </TextArea>
+      </GridPane>
+   </AnchorPane>
+   <AnchorPane fx:id="EditBookPage" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="530.0" prefWidth="986.0" visible="false">
+      <Button fx:id="saveEdit" layoutX="730.0" layoutY="470.0" mnemonicParsing="false" onAction="#EditBookButtonControl" prefHeight="40.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: black; -fx-background-radius: 10; -fx-text-fill: white; -fx-background-color: green;" text="Save">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="cancelEdit" layoutX="350.0" layoutY="470.0" mnemonicParsing="false" onAction="#EditBookButtonControl" prefHeight="40.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: black; -fx-background-radius: 10; -fx-text-fill: white; -fx-background-color: red;" text="Cancel">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="clearEdit" layoutX="540.0" layoutY="470.0" mnemonicParsing="false" onAction="#EditBookButtonControl" prefHeight="40.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: black; -fx-background-radius: 10; -fx-text-fill: white; -fx-background-color: orange;" text="Clear">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <GridPane layoutX="54.0" layoutY="38.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="NEVER" maxWidth="200.0" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="200.0" minWidth="100.0" percentWidth="20.0" prefWidth="150.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="-Infinity" minWidth="10.0" percentWidth="50.0" prefWidth="200.0" />
+            <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" percentWidth="15.0" prefWidth="50.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" percentHeight="18.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" percentHeight="18.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" percentHeight="18.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" percentHeight="18.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" percentHeight="28.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <Label layoutX="105.0" layoutY="47.0" text="Author" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <Label layoutX="11.0" layoutY="47.0" text="Title" GridPane.columnIndex="1">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <TextField fx:id="editTitle" layoutX="219.0" layoutY="44.0" GridPane.columnIndex="2">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </TextField>
+         <TextField fx:id="editAuthor" layoutX="219.0" layoutY="146.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </TextField>
+         <TextField fx:id="editYear" layoutX="219.0" layoutY="351.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </TextField>
+         <TextField fx:id="editCategory" layoutX="644.0" layoutY="44.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </TextField>
+         <Label layoutX="105.0" layoutY="47.0" text="Year" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <Label layoutX="531.0" layoutY="47.0" text="Category" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <Label layoutX="531.0" layoutY="149.0" text="Description" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <TextArea fx:id="editDescription" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </TextArea>
+      </GridPane>
+   </AnchorPane>
+</AnchorPane>

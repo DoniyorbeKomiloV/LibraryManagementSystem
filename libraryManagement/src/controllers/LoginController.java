@@ -2,13 +2,11 @@ package controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import utils.Database;
 
@@ -30,7 +28,7 @@ public class LoginController implements Initializable {
     private Button login_Btn;
 
 
-    private String MAIN = "../fxml/dashboard.fxml";
+    private String MAIN = "../fxml/user.fxml";
     LibraryManagement libraryManagement = new LibraryManagement();
 
     public void login(){
@@ -57,7 +55,7 @@ public class LoginController implements Initializable {
             }else{
                 if(result.next()){
                     if(result.getString("role").equals("A")){
-                        MAIN = "../fxml/admin_dashboard.fxml";
+                        MAIN = "../fxml/admin.fxml";
                     }
                     getData.first_name = result.getString(2);
                     getData.last_name = result.getString(3);
@@ -102,10 +100,16 @@ public class LoginController implements Initializable {
         }
         
     }
-    
+
+    private void write() {
+        id_number.setText("2110121");
+        password.setText("123");
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        write();
         login_Btn.setDefaultButton(true);
-    }    
-    
+    }
+
 }
