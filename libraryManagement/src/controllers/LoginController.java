@@ -102,7 +102,7 @@ public class LoginController implements Initializable {
     }
 
     private void write() {
-        id_number.setText("2110121");
+        id_number.setText("2110120");
         password.setText("123");
     }
 

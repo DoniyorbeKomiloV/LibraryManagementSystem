@@ -15,6 +15,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class AdminController implements Initializable {
@@ -51,6 +52,9 @@ public class AdminController implements Initializable {
     private AnchorPane AllBooksPage;
     @FXML
     private Label mainTitle;
+    private Connection connect;
+    private PreparedStatement prepare;
+    private ResultSet result;
 
     @FXML
     private Button addBook;
@@ -101,15 +105,36 @@ public class AdminController implements Initializable {
     }
     public void AddBook(ActionEvent actionEvent) {
         if (actionEvent.getSource() == save){
-            // check the info and save the book or return error
+            String sql = "INSERT INTO library_book(title, author, category, published_year, description, check_status) VALUES('%s','%s','%s','%s','%s','%s')".formatted(
+                    title.getText(),
+                    author.getText(),
+                    category.getText(),
+                    year.getText(),
+                    description.getText(),
+                    "R");
+            connect = utils.Database.connectDB();
+            try {
+                assert connect != null;
+                prepare = connect.prepareStatement(sql);
+                prepare.executeUpdate();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Admin");
+                alert.setHeaderText(null);
+                alert.setContentText("Book Added!");
+                alert.showAndWait();
+                mainTitle.setText("All Books");
+                AllBooksPage.setVisible(true);
+                AddBookPage.setVisible(false);
+                EditBookPage.setVisible(false);
+                searchText.setVisible(true);
+                searchIcon.setVisible(true);
+                clear();
+                showAllBooks();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
 
-            clear();
-            mainTitle.setText("All Books");
-            AllBooksPage.setVisible(true);
-            AddBookPage.setVisible(false);
-            EditBookPage.setVisible(false);
-            searchText.setVisible(true);
-            searchIcon.setVisible(true);
+
         } else if (actionEvent.getSource() == clear){
             clear();
         } else if (actionEvent.getSource() == cancel){
@@ -124,8 +149,36 @@ public class AdminController implements Initializable {
     }
 
     public void EditBookButtonControl(ActionEvent actionEvent){
+        AllBooks bookData = allBooks.getSelectionModel().getSelectedItem();
         if (actionEvent.getSource() == saveEdit){
+            System.out.println(bookData.getId());
+            String sql = "UPDATE library_book SET author='%s', category='%s', title='%s', published_year='%s', description='%s' WHERE id=%d".formatted(editAuthor.getText(), editCategory.getText(), editTitle.getText(), editYear.getText(), editDescription.getText(), bookData.getId());
+            connect = utils.Database.connectDB();
 
+            try{
+                assert connect != null;
+                prepare = connect.prepareStatement(sql);
+                prepare.executeUpdate();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Admin");
+                alert.setHeaderText(null);
+                alert.setContentText("Book Updated!");
+                alert.showAndWait();
+                mainTitle.setText("All Books");
+                AllBooksPage.setVisible(true);
+                AddBookPage.setVisible(false);
+                EditBookPage.setVisible(false);
+                searchText.setVisible(true);
+                searchIcon.setVisible(true);
+                editTitle.setText("");
+                editAuthor.setText("");
+                editCategory.setText("");
+                editYear.setText("");
+                editDescription.setText("");
+                showAllBooks();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         } else if (actionEvent.getSource() == clearEdit){
             editTitle.setText("");
             editAuthor.setText("");
@@ -133,7 +186,17 @@ public class AdminController implements Initializable {
             editYear.setText("");
             editDescription.setText("");
         } else if (actionEvent.getSource() == cancelEdit) {
-
+            mainTitle.setText("All Books");
+            AllBooksPage.setVisible(true);
+            AddBookPage.setVisible(false);
+            EditBookPage.setVisible(false);
+            searchText.setVisible(true);
+            searchIcon.setVisible(true);
+            editTitle.setText("");
+            editAuthor.setText("");
+            editCategory.setText("");
+            editYear.setText("");
+            editDescription.setText("");
         }
     }
     // changes visibility on MainPage
@@ -145,6 +208,8 @@ public class AdminController implements Initializable {
             EditBookPage.setVisible(false);
             searchText.setVisible(false);
             searchIcon.setVisible(false);
+
+
         } else if(actionEvent.getSource() == editBook){
             AllBooks bookData = allBooks.getSelectionModel().getSelectedItem();
             if (bookData == null){
@@ -153,10 +218,7 @@ public class AdminController implements Initializable {
                 alert.setHeaderText(null);
                 alert.setContentText("Please, Select a book to edit!");
                 alert.showAndWait();
-                return;
             }else {
-                bookData = allBooks.getSelectionModel().getSelectedItem();
-                System.out.println(bookData.getAuthor());
                 mainTitle.setText("Edit Book Info");
                 editTitle.setText(bookData.getTitle());
                 editYear.setText(bookData.getYear());
@@ -168,6 +230,7 @@ public class AdminController implements Initializable {
                 AllBooksPage.setVisible(false);
                 AddBookPage.setVisible(false);
                 EditBookPage.setVisible(true);
+
             }
         } else if (actionEvent.getSource() == deleteBook){
             AllBooks bookData = allBooks.getSelectionModel().getSelectedItem();
@@ -178,7 +241,28 @@ public class AdminController implements Initializable {
                 alert.setContentText("Please, Select a book to edit!");
                 alert.showAndWait();
             }else {
-                mainTitle.setText("All Books");
+                String sql = "DELETE FROM library_book WHERE id=%s".formatted(bookData.getId());
+                connect = utils.Database.connectDB();
+                try {
+                    assert connect != null;
+                    prepare = connect.prepareStatement(sql);
+                    prepare.executeUpdate();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Admin");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Book Deleted!");
+                    alert.showAndWait();
+                    mainTitle.setText("All Books");
+                    AllBooksPage.setVisible(true);
+                    AddBookPage.setVisible(false);
+                    EditBookPage.setVisible(false);
+                    searchText.setVisible(true);
+                    searchIcon.setVisible(true);
+                    clear();
+                    showAllBooks();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
 
             }
         }
@@ -250,6 +334,7 @@ public class AdminController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setName();
         showAllBooks();
+        allBooks.setPlaceholder(new Label("There is no book available"));
     }
 }
 
