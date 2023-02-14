@@ -103,14 +103,25 @@ public class AdminController implements Initializable {
         category.setText("");
         description.setText("");
     }
+    public String reformatString(String oldString){
+        String newString = "";
+        for(int i=0; i<oldString.length(); i++){
+            if (oldString.charAt(i) == '\'') newString += "\\\'";
+            else if (oldString.charAt(i) == '\"') newString += "\\\"";
+            else newString += oldString.charAt(i);
+        }
+        System.out.println(newString);
+
+        return newString;
+    }
     public void AddBook(ActionEvent actionEvent) {
         if (actionEvent.getSource() == save){
             String sql = "INSERT INTO library_book(title, author, category, published_year, description, check_status) VALUES('%s','%s','%s','%s','%s','%s')".formatted(
-                    title.getText(),
-                    author.getText(),
-                    category.getText(),
-                    year.getText(),
-                    description.getText(),
+                    reformatString(title.getText()),
+                    reformatString(author.getText()),
+                    reformatString(category.getText()),
+                    reformatString(year.getText()),
+                    reformatString(description.getText()),
                     "R");
             connect = utils.Database.connectDB();
             try {
@@ -152,7 +163,13 @@ public class AdminController implements Initializable {
         AllBooks bookData = allBooks.getSelectionModel().getSelectedItem();
         if (actionEvent.getSource() == saveEdit){
             System.out.println(bookData.getId());
-            String sql = "UPDATE library_book SET author='%s', category='%s', title='%s', published_year='%s', description='%s' WHERE id=%d".formatted(editAuthor.getText(), editCategory.getText(), editTitle.getText(), editYear.getText(), editDescription.getText(), bookData.getId());
+            String sql = "UPDATE library_book SET author='%s', category='%s', title='%s', published_year='%s', description='%s' WHERE id=%d".formatted(
+                    reformatString(editAuthor.getText()),
+                    reformatString(editCategory.getText()),
+                    reformatString(editTitle.getText()),
+                    reformatString(editYear.getText()),
+                    reformatString(editDescription.getText()),
+                    bookData.getId());
             connect = utils.Database.connectDB();
 
             try{
@@ -274,8 +291,10 @@ public class AdminController implements Initializable {
         System.out.println(searchText.getText());
         // search ...
     }
+    LoginController loginController = new
+
     public void setName(){
-        first_name.setText(getData.first_name);
+        first_name.setText(us.first_name);
         last_name.setText(getData.last_name);
     }
 

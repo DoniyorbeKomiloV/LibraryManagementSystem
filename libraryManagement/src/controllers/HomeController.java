@@ -18,7 +18,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
@@ -58,49 +57,49 @@ public class HomeController implements Initializable {
     private AnchorPane availableBooks_form;
 
     @FXML
-    private TableView<availableBooks> availableBooks_tableView;
+    private TableView<BookData> availableBooks_tableView;
 
     @FXML
-    private TableColumn<availableBooks, String> col_ab_bookTitle;
+    private TableColumn<BookData, String> col_ab_bookTitle;
 
     @FXML
-    private TableColumn<availableBooks, String> col_ab_author;
+    private TableColumn<BookData, String> col_ab_author;
 
     @FXML
-    private TableColumn<availableBooks, String> col_ab_publishedDate;
+    private TableColumn<BookData, String> col_ab_publishedDate;
     @FXML
-    private TableColumn<availableBooks, String> col_ab_category;
+    private TableColumn<BookData, String> col_ab_category;
     @FXML
     private AnchorPane issued_books_form;
     @FXML
     private AnchorPane take_book_form;
 
     @FXML
-    private TableView<availableBooks> issuedBooks_tableView;
+    private TableView<BookData> issuedBooks_tableView;
 
     @FXML
-    private TableColumn<availableBooks, String> col_ib_bookTitle;
+    private TableColumn<BookData, String> col_ib_bookTitle;
 
     @FXML
-    private TableColumn<availableBooks, String> col_ib_author;
+    private TableColumn<BookData, String> col_ib_author;
 
     @FXML
-    private TableColumn<availableBooks, String> col_ib_publishedDate;
+    private TableColumn<BookData, String> col_ib_publishedDate;
     @FXML
-    private TableColumn<availableBooks, String> col_ib_category;
+    private TableColumn<BookData, String> col_ib_category;
     @FXML
-    private TableView<availableBooks> totalBooks_tableView;
+    private TableView<BookData> totalBooks_tableView;
 
     @FXML
-    private TableColumn<availableBooks, String> col_tb_bookTitle;
+    private TableColumn<BookData, String> col_tb_bookTitle;
 
     @FXML
-    private TableColumn<availableBooks, String> col_tb_bookAuthor;
+    private TableColumn<BookData, String> col_tb_bookAuthor;
 
     @FXML
-    private TableColumn<availableBooks, String> col_tb_bookPublishedYear;
+    private TableColumn<BookData, String> col_tb_bookPublishedYear;
     @FXML
-    private TableColumn<availableBooks, String> col_tb_bookCategory;
+    private TableColumn<BookData, String> col_tb_bookCategory;
     @FXML
     private Button available_refresh;
     @FXML
@@ -113,15 +112,16 @@ public class HomeController implements Initializable {
     private PreparedStatement prepare;
     private ResultSet result;
     LibraryManagement libraryManagement = new LibraryManagement();
+    LoginController loginController = new LoginController();
 
-    public ObservableList<availableBooks> bookList(String sql) {
+    public ObservableList<BookData> bookList(String sql) {
 
-        ObservableList<availableBooks> listBooks = FXCollections.observableArrayList();
+        ObservableList<BookData> listBooks = FXCollections.observableArrayList();
         connect = utils.Database.connectDB();
 
         try {
 
-            availableBooks Books;
+            BookData Books;
 
             assert connect != null;
             prepare = connect.prepareStatement(sql);
@@ -129,9 +129,15 @@ public class HomeController implements Initializable {
 
             while (result.next()) {
 
-                Books = new availableBooks(result.getInt("id"),
-                        result.getString("title"), result.getString("published_year"),
-                        result.getString("description"), result.getString("author"), result.getString("category"));
+                Books = new BookData(
+                        result.getInt("id"),
+                        result.getString("author"),
+                        result.getString("category"),
+                        result.getString("title"),
+                        result.getString("published_year"),
+                        result.getString("description"),
+                        result.getString("check_status")
+                );
 
                 listBooks.add(Books);
 
@@ -148,29 +154,20 @@ public class HomeController implements Initializable {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime now = LocalDateTime.now();
         String current_date = dtf.format(now);
-        Date date = new Date();
-        new java.sql.Date(date.getTime());
-        String sql1 = "SELECT * FROM library_user WHERE id_number="+getData.id_number;
         String sql = "INSERT INTO library_take(issued_at, return_at, book_id, user_id) VALUES (?,?,?,?)";
 
         connect = utils.Database.connectDB();
-        int user_id = 1;
 
         try {
 
             Alert alert;
             assert connect != null;
 
-            prepare = connect.prepareStatement(sql1);
-            result = prepare.executeQuery();
-            while (result.next()){
-                user_id = result.getInt(1);
-            }
             prepare = connect.prepareStatement(sql);
             prepare.setString(1, current_date);
             prepare.setString(2, current_date);
-            prepare.setString(3, getData.savedTitle);
-            prepare.setString(4, getData.id_number);
+            prepare.setInt(3, getData.savedId);
+            prepare.setInt(4, loginController.user.getId());
             prepare.executeUpdate();
 
             alert = new Alert(AlertType.INFORMATION);
@@ -214,19 +211,16 @@ public class HomeController implements Initializable {
         if (event.getSource() == issued_btn) {
             setVisible(issued_books_form, new Node[]{availableBooks_form, dashboard, take_book_form});
         }
-//        if(event.getSource() == showInfo){
-//            selectBooks();
-//        }
     }
 
-    public void setTableValues(TableColumn<availableBooks, String> title, TableColumn<availableBooks, String> author, TableColumn<availableBooks, String> date, TableColumn<availableBooks, String> category){
+    public void setTableValues(TableColumn<BookData, String> title, TableColumn<BookData, String> author, TableColumn<BookData, String> date, TableColumn<BookData, String> category){
         title.setCellValueFactory(new PropertyValueFactory<>("title"));
         author.setCellValueFactory(new PropertyValueFactory<>("author"));
         date.setCellValueFactory(new PropertyValueFactory<>("date"));
         category.setCellValueFactory(new PropertyValueFactory<>("category"));
     }
     public void showAvailableBooks() {
-        ObservableList<availableBooks> listBook = bookList("SELECT * FROM library_book WHERE check_status='R' ORDER BY title ASC ");
+        ObservableList<BookData> listBook = bookList("SELECT * FROM library_book WHERE check_status='R' ORDER BY title ASC ");
 
         setTableValues(col_ab_bookTitle, col_ab_author, col_ab_publishedDate, col_ab_category);
 
@@ -234,7 +228,7 @@ public class HomeController implements Initializable {
 
     }
     public void showTotalBooks() {
-        ObservableList<availableBooks> listBook = bookList("SELECT * FROM library_book ORDER BY title ASC");
+        ObservableList<BookData> listBook = bookList("SELECT * FROM library_book ORDER BY title ASC");
 
         setTableValues(col_tb_bookTitle, col_tb_bookAuthor, col_tb_bookPublishedYear, col_tb_bookCategory);
 
@@ -242,7 +236,7 @@ public class HomeController implements Initializable {
 
     }
     public void showIssuedBooks() {
-        ObservableList<availableBooks> listBook = bookList("SELECT * FROM library_book WHERE check_status='NR' ORDER BY title ASC");
+        ObservableList<BookData> listBook = bookList("SELECT * FROM library_book WHERE check_status='NR' ORDER BY title ASC");
 
         setTableValues(col_ib_bookTitle, col_ib_author, col_ib_publishedDate, col_ib_category);
 
@@ -287,7 +281,7 @@ public class HomeController implements Initializable {
     public void selectBooks(ActionEvent e) {
 
 
-        availableBooks bookData = availableBooks_tableView.getSelectionModel().getSelectedItem();
+        BookData bookData = availableBooks_tableView.getSelectionModel().getSelectedItem();
 
         int num = availableBooks_tableView.getSelectionModel().getFocusedIndex();
 
@@ -299,7 +293,7 @@ public class HomeController implements Initializable {
             title.setText(bookData.getTitle());
             author.setText(bookData.getAuthor());
             category.setText(bookData.getCategory());
-            published_year.setText(bookData.getDate());
+            published_year.setText(bookData.getPublished_year());
             description.setText(bookData.getDescription());
         }else {
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -312,7 +306,7 @@ public class HomeController implements Initializable {
     }
 
     public void studentName() {
-        studentNumber_label.setText(getData.first_name + " " + getData.last_name);
+        studentNumber_label.setText(loginController.user.getFirst_name() + " " + loginController.user.getLast_name());
     }
 
     public void setBooksCount(String sql, Label label){
@@ -335,7 +329,6 @@ public class HomeController implements Initializable {
         String sql1 = "SELECT COUNT(id) FROM library_book";
         String sql2 = "SELECT COUNT(id) FROM library_book WHERE check_status='NR'";
         String sql3 = "SELECT COUNT(id) FROM library_book WHERE check_status='R'";
-
         setBooksCount(sql1, total_books);
         setBooksCount(sql2, issued_books);
         setBooksCount(sql3, available_books);
@@ -345,5 +338,6 @@ public class HomeController implements Initializable {
         studentName();
 
     }
+
 
 }

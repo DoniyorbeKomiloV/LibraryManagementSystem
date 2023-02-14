@@ -28,8 +28,22 @@ public class LoginController implements Initializable {
     private Button login_Btn;
 
 
-    private String MAIN = "../fxml/user.fxml";
+    
     LibraryManagement libraryManagement = new LibraryManagement();
+
+    UserInfo user = new UserInfo();
+    public void setUser(int Id, String first_name, String last_name, String password, String id_number, String major, String role, String group_id, String status){
+
+        user.setId(Id);
+        user.setFirst_name(first_name);
+        user.setLast_name(last_name);
+        user.setPassword(password);
+        user.setId_number(id_number);
+        user.setMajor(major);
+        user.setRole(role);
+        user.setGroup_id(group_id);
+        user.setStatus(status);
+    }
 
     public void login(){
         String sql = "SELECT * FROM library_user WHERE id_number = ? and password = ?";
@@ -54,24 +68,43 @@ public class LoginController implements Initializable {
                 alert.showAndWait();
             }else{
                 if(result.next()){
-                    if(result.getString("role").equals("A")){
-                        MAIN = "../fxml/admin.fxml";
+                    setUser(
+                            result.getInt(1),
+                            result.getString(2),
+                            result.getString(3),
+                            result.getString(4),
+                            result.getString(5),
+                            result.getString(6),
+                            result.getString(7),
+                            result.getString(8),
+                            result.getString(9)
+                    );
+                    if(result.getString("status").equals("B")){
+                        alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("Admin Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("You hava been blocked by Admin and cannot access the application");
+                        alert.showAndWait();
+                        write("", "");
+                    } else if (result.getString("role").equals("A")) {
+                        alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("Admin Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("You have logged in as Admin");
+                        alert.showAndWait();
+
+
+                        libraryManagement.setStage("../fxml/admin.fxml");
+                        login_Btn.getScene().getWindow().hide();
+                    } else{
+                        alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("Admin Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Successfully Login!");
+                        alert.showAndWait();
+                        libraryManagement.setStage("../fxml/users.fxml");
+                        login_Btn.getScene().getWindow().hide();
                     }
-                    getData.first_name = result.getString(2);
-                    getData.last_name = result.getString(3);
-                    getData.id_number = id_number.getText();
-                    
-                    alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Admin Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Successfully Login!");
-                    alert.showAndWait();
-
-
-                    login_Btn.getScene().getWindow().hide();
-                    libraryManagement.setStage(MAIN);
-
-                    
                 }else{
                     alert = new Alert(AlertType.ERROR);
                     alert.setTitle("Admin Message");
@@ -101,14 +134,14 @@ public class LoginController implements Initializable {
         
     }
 
-    private void write() {
-        id_number.setText("2110120");
-        password.setText("123");
+    private void write(String username, String pass) {
+        id_number.setText(username);
+        password.setText(pass);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        write();
+        write("2110120", "123");
         login_Btn.setDefaultButton(true);
     }
 
