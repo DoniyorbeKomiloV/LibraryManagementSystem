@@ -101,11 +101,6 @@
             <RowConstraints minHeight="10.0" percentHeight="18.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" percentHeight="28.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
-         <Label layoutX="105.0" layoutY="47.0" text="Author" GridPane.columnIndex="1" GridPane.rowIndex="3">
-            <font>
-               <Font size="20.0" />
-            </font>
-         </Label>
          <Label layoutX="11.0" layoutY="47.0" text="Title" GridPane.columnIndex="1">
             <font>
                <Font size="20.0" />
@@ -116,32 +111,27 @@
                <Font size="16.0" />
             </font>
          </TextField>
-         <TextField fx:id="author" layoutX="219.0" layoutY="146.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
-            <font>
-               <Font size="16.0" />
-            </font>
-         </TextField>
-         <TextField fx:id="year" layoutX="219.0" layoutY="351.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-            <font>
-               <Font size="16.0" />
-            </font>
-         </TextField>
-         <TextField fx:id="category" layoutX="644.0" layoutY="44.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-            <font>
-               <Font size="16.0" />
-            </font>
-         </TextField>
          <Label layoutX="105.0" layoutY="47.0" text="Year" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <font>
                <Font size="20.0" />
             </font>
          </Label>
+         <TextField fx:id="year" layoutX="219.0" layoutY="351.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </TextField>
          <Label layoutX="531.0" layoutY="47.0" text="Category" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <font>
                <Font size="20.0" />
             </font>
          </Label>
-         <Label layoutX="531.0" layoutY="149.0" text="Description" GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <TextField fx:id="category" layoutX="644.0" layoutY="44.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </TextField>
+         <Label layoutX="105.0" layoutY="47.0" text="Author" GridPane.columnIndex="1" GridPane.rowIndex="3">
             <font>
                <Font size="20.0" />
             </font>
@@ -151,6 +141,16 @@
                <Font size="14.0" />
             </font>
          </TextArea>
+         <Label layoutX="531.0" layoutY="149.0" text="Description" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <TextField fx:id="author" layoutX="219.0" layoutY="146.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </TextField>
       </GridPane>
    </AnchorPane>
    <AnchorPane fx:id="EditBookPage" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="530.0" prefWidth="986.0" visible="false">
@@ -183,11 +183,6 @@
             <RowConstraints minHeight="10.0" percentHeight="18.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" percentHeight="28.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
-         <Label layoutX="105.0" layoutY="47.0" text="Author" GridPane.columnIndex="1" GridPane.rowIndex="3">
-            <font>
-               <Font size="20.0" />
-            </font>
-         </Label>
          <Label layoutX="11.0" layoutY="47.0" text="Title" GridPane.columnIndex="1">
             <font>
                <Font size="20.0" />
@@ -198,31 +193,36 @@
                <Font size="16.0" />
             </font>
          </TextField>
-         <TextField fx:id="editAuthor" layoutX="219.0" layoutY="146.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
-            <font>
-               <Font size="16.0" />
-            </font>
-         </TextField>
-         <TextField fx:id="editYear" layoutX="219.0" layoutY="351.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-            <font>
-               <Font size="16.0" />
-            </font>
-         </TextField>
-         <TextField fx:id="editCategory" layoutX="644.0" layoutY="44.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-            <font>
-               <Font size="16.0" />
-            </font>
-         </TextField>
          <Label layoutX="105.0" layoutY="47.0" text="Year" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <font>
                <Font size="20.0" />
             </font>
          </Label>
+         <TextField fx:id="editYear" layoutX="219.0" layoutY="351.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </TextField>
          <Label layoutX="531.0" layoutY="47.0" text="Category" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <font>
                <Font size="20.0" />
             </font>
          </Label>
+         <TextField fx:id="editCategory" layoutX="644.0" layoutY="44.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </TextField>
+         <Label layoutX="105.0" layoutY="47.0" text="Author" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <TextField fx:id="editAuthor" layoutX="219.0" layoutY="146.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </TextField>
          <Label layoutX="531.0" layoutY="149.0" text="Description" GridPane.columnIndex="1" GridPane.rowIndex="4">
             <font>
                <Font size="20.0" />
