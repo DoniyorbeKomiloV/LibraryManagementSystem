@@ -21,6 +21,9 @@ public class BookData {
         this.check_status = check_status;
     }
 
+    public BookData() {
+    }
+
     public int getId() {
         return id;
     }

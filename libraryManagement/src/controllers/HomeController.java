@@ -112,7 +112,6 @@ public class HomeController implements Initializable {
     private PreparedStatement prepare;
     private ResultSet result;
     LibraryManagement libraryManagement = new LibraryManagement();
-    LoginController loginController = new LoginController();
 
     public ObservableList<BookData> bookList(String sql) {
 
@@ -151,6 +150,7 @@ public class HomeController implements Initializable {
 }
 
     public void takeBook() {
+        BookData bookData = new BookData();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime now = LocalDateTime.now();
         String current_date = dtf.format(now);
@@ -166,8 +166,8 @@ public class HomeController implements Initializable {
             prepare = connect.prepareStatement(sql);
             prepare.setString(1, current_date);
             prepare.setString(2, current_date);
-            prepare.setInt(3, getData.savedId);
-            prepare.setInt(4, loginController.user.getId());
+            prepare.setInt(3, bookData.getId());
+            prepare.setInt(4, UserInfo.getId());
             prepare.executeUpdate();
 
             alert = new Alert(AlertType.INFORMATION);
@@ -213,10 +213,10 @@ public class HomeController implements Initializable {
         }
     }
 
-    public void setTableValues(TableColumn<BookData, String> title, TableColumn<BookData, String> author, TableColumn<BookData, String> date, TableColumn<BookData, String> category){
+    public void setTableValues(TableColumn<BookData, String> title, TableColumn<BookData, String> author, TableColumn<BookData, String> published_year, TableColumn<BookData, String> category){
         title.setCellValueFactory(new PropertyValueFactory<>("title"));
         author.setCellValueFactory(new PropertyValueFactory<>("author"));
-        date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        published_year.setCellValueFactory(new PropertyValueFactory<>("published_year"));
         category.setCellValueFactory(new PropertyValueFactory<>("category"));
     }
     public void showAvailableBooks() {
@@ -243,22 +243,6 @@ public class HomeController implements Initializable {
         issuedBooks_tableView.setItems(listBook);
 
     }
-//    public void removeFromIssued(){
-//        String sql = "";
-//        connect = utils.Database.connectDB();
-//        try{
-//            assert connect != null;
-//            prepare = connect.prepareStatement(sql);
-//            if(prepare.isClosed()){
-//
-//            }
-//            prepare.executeQuery();
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//
-//
-//    }
     public void refresh(ActionEvent event){
         String sql1 = "SELECT COUNT(id) FROM library_book";
         String sql2 = "SELECT COUNT(id) FROM library_book WHERE check_status='NR'";
@@ -306,7 +290,7 @@ public class HomeController implements Initializable {
     }
 
     public void studentName() {
-        studentNumber_label.setText(loginController.user.getFirst_name() + " " + loginController.user.getLast_name());
+        studentNumber_label.setText("%s %s".formatted(UserInfo.getFirst_name(), UserInfo.getLast_name()));
     }
 
     public void setBooksCount(String sql, Label label){

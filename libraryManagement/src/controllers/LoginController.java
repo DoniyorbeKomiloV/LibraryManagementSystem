@@ -31,18 +31,17 @@ public class LoginController implements Initializable {
     
     LibraryManagement libraryManagement = new LibraryManagement();
 
-    UserInfo user = new UserInfo();
     public void setUser(int Id, String first_name, String last_name, String password, String id_number, String major, String role, String group_id, String status){
 
-        user.setId(Id);
-        user.setFirst_name(first_name);
-        user.setLast_name(last_name);
-        user.setPassword(password);
-        user.setId_number(id_number);
-        user.setMajor(major);
-        user.setRole(role);
-        user.setGroup_id(group_id);
-        user.setStatus(status);
+        UserInfo.setId(Id);
+        UserInfo.setFirst_name(first_name);
+        UserInfo.setLast_name(last_name);
+        UserInfo.setPassword(password);
+        UserInfo.setId_number(id_number);
+        UserInfo.setMajor(major);
+        UserInfo.setRole(role);
+        UserInfo.setGroup_id(group_id);
+        UserInfo.setStatus(status);
     }
 
     public void login(){
@@ -102,7 +101,7 @@ public class LoginController implements Initializable {
                         alert.setHeaderText(null);
                         alert.setContentText("Successfully Login!");
                         alert.showAndWait();
-                        libraryManagement.setStage("../fxml/users.fxml");
+                        libraryManagement.setStage("../fxml/user.fxml");
                         login_Btn.getScene().getWindow().hide();
                     }
                 }else{
@@ -139,9 +138,10 @@ public class LoginController implements Initializable {
         password.setText(pass);
     }
 
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        write("2110120", "123");
+        write("2116185", "req8855WANQ");
         login_Btn.setDefaultButton(true);
     }
 

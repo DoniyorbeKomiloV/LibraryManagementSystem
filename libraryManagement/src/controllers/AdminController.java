@@ -106,7 +106,7 @@ public class AdminController implements Initializable {
     public String reformatString(String oldString){
         String newString = "";
         for(int i=0; i<oldString.length(); i++){
-            if (oldString.charAt(i) == '\'') newString += "\\\'";
+            if (oldString.charAt(i) == '\'') newString += "\\'";
             else if (oldString.charAt(i) == '\"') newString += "\\\"";
             else newString += oldString.charAt(i);
         }
@@ -291,11 +291,10 @@ public class AdminController implements Initializable {
         System.out.println(searchText.getText());
         // search ...
     }
-    LoginController loginController = new
 
     public void setName(){
-        first_name.setText(us.first_name);
-        last_name.setText(getData.last_name);
+        first_name.setText(UserInfo.getFirst_name());
+        last_name.setText(UserInfo.getFirst_name());
     }
 
     public ObservableList<AllBooks> bookList(String sql) {
