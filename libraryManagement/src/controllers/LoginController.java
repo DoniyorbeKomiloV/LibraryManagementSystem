@@ -141,7 +141,7 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        write("2116185", "req8855WANQ");
+        write("2110120", "123");
         login_Btn.setDefaultButton(true);
     }
 

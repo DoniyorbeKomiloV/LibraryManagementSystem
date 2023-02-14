@@ -386,3 +386,9 @@ and open the template in the editor.
     -fx-border-radius: 2em;
 
 }
+.date{
+    -fx-focus-color: -fill;
+    -fx-background-color: white;
+    -fx-text-fill: #4f4f4d;
+    -fx-border-color: -fill;
+}

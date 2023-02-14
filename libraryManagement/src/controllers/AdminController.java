@@ -95,6 +95,8 @@ public class AdminController implements Initializable {
     private TableColumn<AllBooks, String> tableDescription;
     @FXML
     private TableColumn<AllBooks, String> tableStatus;
+    @FXML
+    private Button logOut;
 
     public void clear(){
         title.setText("");
@@ -284,8 +286,20 @@ public class AdminController implements Initializable {
             }
         }
     }
+    LibraryManagement libraryManagement = new LibraryManagement();
+    @FXML
+    public void logOut(ActionEvent event){
+        try {
+            if (event.getSource() == logOut) {
+                libraryManagement.setStage("../fxml/login.fxml");
 
+                logOut.getScene().getWindow().hide();
 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public void search(KeyEvent keyEvent){
         // to check the input data is coming or not
         System.out.println(searchText.getText());

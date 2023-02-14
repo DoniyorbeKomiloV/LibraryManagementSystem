@@ -39,6 +39,10 @@ public class HomeController implements Initializable {
     private Button availableBooks_btn;
     @FXML
     private Button issued_btn;
+    @FXML
+    private Button go_back_btn;
+    @FXML
+    private DatePicker rent_date;
 
     @FXML
     private Button logout_btn;
@@ -75,18 +79,18 @@ public class HomeController implements Initializable {
     private AnchorPane take_book_form;
 
     @FXML
-    private TableView<BookData> issuedBooks_tableView;
+    private TableView<Take> issuedBooks_tableView;
 
     @FXML
-    private TableColumn<BookData, String> col_ib_bookTitle;
+    private TableColumn<Take, Integer> col_ib_id;
 
     @FXML
-    private TableColumn<BookData, String> col_ib_author;
+    private TableColumn<Take, String> col_ib_issued_at;
 
     @FXML
-    private TableColumn<BookData, String> col_ib_publishedDate;
+    private TableColumn<Take, String> col_ib_return_at;
     @FXML
-    private TableColumn<BookData, String> col_ib_category;
+    private TableColumn<Take, Integer> col_ib_book_id;
     @FXML
     private TableView<BookData> totalBooks_tableView;
 
@@ -101,16 +105,13 @@ public class HomeController implements Initializable {
     @FXML
     private TableColumn<BookData, String> col_tb_bookCategory;
     @FXML
-    private Button available_refresh;
-    @FXML
     private Button showInfo;
     @FXML
-    private Button dashboard_refresh;
-    @FXML
-    private Button issued_refresh;
+    private Button return_btn;
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet result;
+
     LibraryManagement libraryManagement = new LibraryManagement();
 
     public ObservableList<BookData> bookList(String sql) {
@@ -150,24 +151,19 @@ public class HomeController implements Initializable {
 }
 
     public void takeBook() {
-        BookData bookData = new BookData();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime now = LocalDateTime.now();
         String current_date = dtf.format(now);
-        String sql = "INSERT INTO library_take(issued_at, return_at, book_id, user_id) VALUES (?,?,?,?)";
-
+        String issue_date = dtf.format(rent_date.getValue());
+        String sql = "INSERT INTO library_take(issued_at, return_at, book_id, user_id) VALUES ('%s','%s','%s','%s')".formatted(current_date, issue_date, SavedInfo.getBook_id(), UserInfo.getId());
+        String sql1 = "UPDATE library_book SET check_status = 'NR' WHERE id = %s".formatted(SavedInfo.getBook_id());
         connect = utils.Database.connectDB();
 
         try {
 
             Alert alert;
             assert connect != null;
-
             prepare = connect.prepareStatement(sql);
-            prepare.setString(1, current_date);
-            prepare.setString(2, current_date);
-            prepare.setInt(3, bookData.getId());
-            prepare.setInt(4, UserInfo.getId());
             prepare.executeUpdate();
 
             alert = new Alert(AlertType.INFORMATION);
@@ -175,6 +171,11 @@ public class HomeController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Successfully take the book!");
             alert.showAndWait();
+            prepare = connect.prepareStatement(sql1);
+            prepare.executeUpdate();
+            goBack(availableBooks_form, take_book_form);
+
+            refresh();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -211,17 +212,29 @@ public class HomeController implements Initializable {
         if (event.getSource() == issued_btn) {
             setVisible(issued_books_form, new Node[]{availableBooks_form, dashboard, take_book_form});
         }
+        if (event.getSource() == go_back_btn) {
+            goBack(availableBooks_form, take_book_form);
+        }
     }
-
+    public void goBack(AnchorPane to, AnchorPane from){
+        to.setVisible(true);
+        from.setVisible(false);
+    }
     public void setTableValues(TableColumn<BookData, String> title, TableColumn<BookData, String> author, TableColumn<BookData, String> published_year, TableColumn<BookData, String> category){
         title.setCellValueFactory(new PropertyValueFactory<>("title"));
         author.setCellValueFactory(new PropertyValueFactory<>("author"));
         published_year.setCellValueFactory(new PropertyValueFactory<>("published_year"));
         category.setCellValueFactory(new PropertyValueFactory<>("category"));
     }
+    public void setTableIssued(TableColumn<Take, Integer> id, TableColumn<Take, String> issued_at, TableColumn<Take, String> return_at, TableColumn<Take, Integer> book_id){
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        issued_at.setCellValueFactory(new PropertyValueFactory<>("issued_at"));
+        return_at.setCellValueFactory(new PropertyValueFactory<>("return_at"));
+        book_id.setCellValueFactory(new PropertyValueFactory<>("book_id"));
+    }
+
     public void showAvailableBooks() {
         ObservableList<BookData> listBook = bookList("SELECT * FROM library_book WHERE check_status='R' ORDER BY title ASC ");
-
         setTableValues(col_ab_bookTitle, col_ab_author, col_ab_publishedDate, col_ab_category);
 
         availableBooks_tableView.setItems(listBook);
@@ -235,15 +248,49 @@ public class HomeController implements Initializable {
         totalBooks_tableView.setItems(listBook);
 
     }
-    public void showIssuedBooks() {
-        ObservableList<BookData> listBook = bookList("SELECT * FROM library_book WHERE check_status='NR' ORDER BY title ASC");
+    public ObservableList<Take> issuedList(){
+        ObservableList<Take> listIssued = FXCollections.observableArrayList();
+        connect = utils.Database.connectDB();
+        String sql = "SELECT * FROM library_take WHERE user_id = %s".formatted(UserInfo.getId());
 
-        setTableValues(col_ib_bookTitle, col_ib_author, col_ib_publishedDate, col_ib_category);
+        try {
 
-        issuedBooks_tableView.setItems(listBook);
+            Take Books;
+
+            assert connect != null;
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()) {
+
+                Books = new Take(
+                        result.getInt("id"),
+                        result.getString("issued_at"),
+                        result.getString("return_at"),
+                        result.getInt("book_id"),
+                        result.getInt("user_id")
+                );
+
+                listIssued.add(Books);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return listIssued;
 
     }
-    public void refresh(ActionEvent event){
+    public void showIssuedBooks() {
+        ObservableList<Take> listIssued = issuedList();
+
+        setTableIssued(col_ib_id, col_ib_issued_at, col_ib_return_at, col_ib_book_id);
+
+        issuedBooks_tableView.setItems(listIssued);
+
+    }
+    public void refresh(){
         String sql1 = "SELECT COUNT(id) FROM library_book";
         String sql2 = "SELECT COUNT(id) FROM library_book WHERE check_status='NR'";
         String sql3 = "SELECT COUNT(id) FROM library_book WHERE check_status='R'";
@@ -251,16 +298,9 @@ public class HomeController implements Initializable {
         setBooksCount(sql1, total_books);
         setBooksCount(sql2, issued_books);
         setBooksCount(sql3, available_books);
-        if(event.getSource() == available_refresh){
-            showAvailableBooks();
-        }
-        if(event.getSource() == dashboard_refresh){
-            showTotalBooks();
-        }
-        if(event.getSource() == issued_refresh){
-            showIssuedBooks();
-//            removeFromIssued();
-        }
+        showAvailableBooks();
+        showIssuedBooks();
+        showTotalBooks();
     }
     public void selectBooks(ActionEvent e) {
 
@@ -279,6 +319,52 @@ public class HomeController implements Initializable {
             category.setText(bookData.getCategory());
             published_year.setText(bookData.getPublished_year());
             description.setText(bookData.getDescription());
+            SavedInfo.setBook_id(bookData.getId());
+
+        }else {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Admin Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a book");
+            alert.showAndWait();
+        }
+
+    }
+    public void selectIssued(ActionEvent e) {
+
+
+        Take take = issuedBooks_tableView.getSelectionModel().getSelectedItem();
+
+        int num = issuedBooks_tableView.getSelectionModel().getFocusedIndex();
+
+        if ((num - 1) < -1) {
+            return;
+        }
+        if (take != null && e.getSource() == return_btn){
+            SavedInfo.setBook_id(take.getId());
+            String sql = "DELETE FROM library_take WHERE book_id = %s".formatted(SavedInfo.getBook_id());
+            String sql1 = "UPDATE library_book SET check_status = 'R' WHERE id = %s".formatted(SavedInfo.getBook_id());
+            connect = utils.Database.connectDB();
+
+            try {
+
+                Alert alert;
+                assert connect != null;
+                prepare = connect.prepareStatement(sql);
+                prepare.executeUpdate();
+
+                alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Admin Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Successfully return the book!");
+                alert.showAndWait();
+                prepare = connect.prepareStatement(sql1);
+                prepare.executeUpdate();
+                refresh();
+            } catch (Exception ev) {
+                ev.printStackTrace();
+            }
+
         }else {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Admin Message");
@@ -310,15 +396,7 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        String sql1 = "SELECT COUNT(id) FROM library_book";
-        String sql2 = "SELECT COUNT(id) FROM library_book WHERE check_status='NR'";
-        String sql3 = "SELECT COUNT(id) FROM library_book WHERE check_status='R'";
-        setBooksCount(sql1, total_books);
-        setBooksCount(sql2, issued_books);
-        setBooksCount(sql3, available_books);
-        showAvailableBooks();
-        showTotalBooks();
-        showIssuedBooks();
+        refresh();
         studentName();
 
     }
