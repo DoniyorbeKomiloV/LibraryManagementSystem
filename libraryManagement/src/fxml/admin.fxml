@@ -45,13 +45,13 @@
    <AnchorPane fx:id="AllBooksPage" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="530.0" prefWidth="986.0" style="-fx-background-color: #f5f5f5;">
       <TableView fx:id="allBooks" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" style="-fx-background-color: #f4f4f4; -fx-border-color: black;" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="20.0">
          <columns>
-            <TableColumn fx:id="tableId" maxWidth="100.0" minWidth="50.0" prefWidth="50.0" style="-fx-border-color: black; -fx-alignment: center;" text="ID" />
-            <TableColumn fx:id="tableTitle" maxWidth="300.0" minWidth="50.0" prefWidth="160.0" style="-fx-border-color: black;" text="Title" />
-            <TableColumn fx:id="tableCategory" maxWidth="300.0" minWidth="50.0" prefWidth="160.0" style="-fx-border-color: black;" text="Category" />
-            <TableColumn fx:id="tableAuthor" maxWidth="300.0" minWidth="50.0" prefWidth="160.0" style="--fx-alignment: center; -fx-border-color: black;" text="Author" />
-            <TableColumn fx:id="tableYear" maxWidth="300.0" minWidth="50.0" prefWidth="50.0" style="-fx-border-color: black; -fx-alignment: center;" text="Year" />
-            <TableColumn fx:id="tableDescription" maxWidth="300.0" minWidth="50.0" prefWidth="300.0" style="-fx-border-color: black;" text="Description" />
-            <TableColumn fx:id="tableStatus" maxWidth="300.0" minWidth="50.0" prefWidth="40.0" style="-fx-border-color: black; -fx-alignment: center;" text="Status" />
+            <TableColumn fx:id="tableId" editable="false" maxWidth="100.0" minWidth="50.0" prefWidth="50.0" resizable="false" style="-fx-border-color: black; -fx-alignment: center;" text="ID" />
+            <TableColumn fx:id="tableTitle" editable="false" maxWidth="300.0" minWidth="50.0" prefWidth="160.0" resizable="false" style="-fx-border-color: black;" text="Title" />
+            <TableColumn fx:id="tableCategory" editable="false" maxWidth="300.0" minWidth="50.0" prefWidth="160.0" resizable="false" style="-fx-border-color: black;" text="Category" />
+            <TableColumn fx:id="tableAuthor" editable="false" maxWidth="300.0" minWidth="50.0" prefWidth="160.0" resizable="false" style="--fx-alignment: center; -fx-border-color: black;" text="Author" />
+            <TableColumn fx:id="tableYear" editable="false" maxWidth="300.0" minWidth="50.0" prefWidth="50.0" resizable="false" style="-fx-border-color: black; -fx-alignment: center;" text="Year" />
+            <TableColumn fx:id="tableDescription" editable="false" maxWidth="300.0" minWidth="50.0" prefWidth="300.0" resizable="false" style="-fx-border-color: black;" text="Description" />
+            <TableColumn fx:id="tableStatus" editable="false" maxWidth="300.0" minWidth="44.0" prefWidth="49.0" resizable="false" style="-fx-border-color: black; -fx-alignment: center;" text="Status" />
          </columns>
       </TableView>
       <Button fx:id="addBook" layoutX="243.0" layoutY="450.0" mnemonicParsing="false" onAction="#MainControl" prefHeight="40.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: black; -fx-background-radius: 10; -fx-text-fill: white; -fx-background-color: green;" text="Add book" AnchorPane.bottomAnchor="20.0">
