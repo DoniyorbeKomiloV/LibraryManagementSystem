@@ -152,33 +152,51 @@ public class HomeController implements Initializable {
 
     public void takeBook() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Alert alert;
+        String issue_date;
         LocalDateTime now = LocalDateTime.now();
         String current_date = dtf.format(now);
-        String issue_date = dtf.format(rent_date.getValue());
-        String sql = "INSERT INTO library_take(issued_at, return_at, book_id, user_id) VALUES ('%s','%s','%s','%s')".formatted(current_date, issue_date, SavedInfo.getBook_id(), UserInfo.getId());
-        String sql1 = "UPDATE library_book SET check_status = 'NR' WHERE id = %s".formatted(SavedInfo.getBook_id());
-        connect = utils.Database.connectDB();
-
-        try {
-
-            Alert alert;
-            assert connect != null;
-            prepare = connect.prepareStatement(sql);
-            prepare.executeUpdate();
-
+        if(rent_date.getValue() == null){
             alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Admin Message");
             alert.setHeaderText(null);
-            alert.setContentText("Successfully take the book!");
+            alert.setContentText("Please enter rent date");
             alert.showAndWait();
-            prepare = connect.prepareStatement(sql1);
-            prepare.executeUpdate();
-            goBack(availableBooks_form, take_book_form);
+        }else{
+            issue_date = dtf.format(rent_date.getValue());
+            String sql = "INSERT INTO library_take(issued_at, return_at, book_id, user_id) VALUES ('%s','%s','%s','%s')".formatted(current_date, issue_date, SavedInfo.getBook_id(), UserInfo.getId());
+            String sql1 = "UPDATE library_book SET check_status = 'NR' WHERE id = %s".formatted(SavedInfo.getBook_id());
+            connect = utils.Database.connectDB();
 
-            refresh();
-        } catch (Exception e) {
-            e.printStackTrace();
+            try {
+
+
+                assert connect != null;
+                if(issue_date.equals("")){
+                    alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Admin Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Please enter rent date");
+                    alert.showAndWait();
+                }else {
+                    prepare = connect.prepareStatement(sql);
+                    prepare.executeUpdate();
+                }
+                alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Admin Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Successfully take the book!");
+                alert.showAndWait();
+                prepare = connect.prepareStatement(sql1);
+                prepare.executeUpdate();
+                goBack(availableBooks_form, take_book_form);
+
+                refresh();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
 
     }
     @FXML
@@ -341,7 +359,7 @@ public class HomeController implements Initializable {
             return;
         }
         if (take != null && e.getSource() == return_btn){
-            SavedInfo.setBook_id(take.getId());
+            SavedInfo.setBook_id(take.getBook_id());
             String sql = "DELETE FROM library_take WHERE book_id = %s".formatted(SavedInfo.getBook_id());
             String sql1 = "UPDATE library_book SET check_status = 'R' WHERE id = %s".formatted(SavedInfo.getBook_id());
             connect = utils.Database.connectDB();
