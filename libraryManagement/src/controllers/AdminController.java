@@ -126,12 +126,12 @@ public class AdminController implements Initializable {
         if (actionEvent.getSource() == save){
             if (title.getText().strip().equals("")){
                 showAlert(Alert.AlertType.INFORMATION, "Book title field is empty");
-            }else if (author.getText().strip().equals("")){
-                showAlert(Alert.AlertType.INFORMATION, "Book author field is empty");
             }else if (year.getText().strip().equals("")){
                 showAlert(Alert.AlertType.INFORMATION, "Book published year field is empty");
             }else if (category.getText().strip().equals("")){
                 showAlert(Alert.AlertType.INFORMATION, "Book category field is empty");
+            }else if (author.getText().strip().equals("")){
+                showAlert(Alert.AlertType.INFORMATION, "Book author field is empty");
             }else if (description.getText().strip().equals("")){
                 showAlert(Alert.AlertType.INFORMATION, "Book description field is empty");
             }else {
@@ -178,34 +178,46 @@ public class AdminController implements Initializable {
     public void EditBookButtonControl(ActionEvent actionEvent){
         AllBooks bookData = allBooks.getSelectionModel().getSelectedItem();
         if (actionEvent.getSource() == saveEdit){
-            String sql = "UPDATE library_book SET author='%s', category='%s', title='%s', published_year='%s', description='%s' WHERE id=%d".formatted(
-                    reformatString(editAuthor.getText()),
-                    reformatString(editCategory.getText()),
-                    reformatString(editTitle.getText()),
-                    reformatString(editYear.getText()),
-                    reformatString(editDescription.getText()),
-                    bookData.getId());
-            connect = utils.Database.connectDB();
+            if (editTitle.getText().strip().equals("")){
+                showAlert(Alert.AlertType.INFORMATION, "Book title field is empty");
+            }else if (editYear.getText().strip().equals("")){
+                showAlert(Alert.AlertType.INFORMATION, "Book published year field is empty");
+            }else if (editCategory.getText().strip().equals("")){
+                showAlert(Alert.AlertType.INFORMATION, "Book category field is empty");
+            }else if (editAuthor.getText().strip().equals("")){
+                showAlert(Alert.AlertType.INFORMATION, "Book author field is empty");
+            }else if (editDescription.getText().strip().equals("")){
+                showAlert(Alert.AlertType.INFORMATION, "Book description field is empty");
+            }else {
+                String sql = "UPDATE library_book SET author='%s', category='%s', title='%s', published_year='%s', description='%s' WHERE id=%d".formatted(
+                        reformatString(editAuthor.getText()),
+                        reformatString(editCategory.getText()),
+                        reformatString(editTitle.getText()),
+                        reformatString(editYear.getText()),
+                        reformatString(editDescription.getText()),
+                        bookData.getId());
+                connect = utils.Database.connectDB();
 
-            try{
-                assert connect != null;
-                prepare = connect.prepareStatement(sql);
-                prepare.executeUpdate();
-                showAlert(Alert.AlertType.CONFIRMATION, "Book Updated!");
-                mainTitle.setText("All Books");
-                AllBooksPage.setVisible(true);
-                AddBookPage.setVisible(false);
-                EditBookPage.setVisible(false);
-                searchText.setVisible(true);
-                searchIcon.setVisible(true);
-                editTitle.setText("");
-                editAuthor.setText("");
-                editCategory.setText("");
-                editYear.setText("");
-                editDescription.setText("");
-                showAllBooks();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+                try {
+                    assert connect != null;
+                    prepare = connect.prepareStatement(sql);
+                    prepare.executeUpdate();
+                    showAlert(Alert.AlertType.CONFIRMATION, "Book Updated!");
+                    mainTitle.setText("All Books");
+                    AllBooksPage.setVisible(true);
+                    AddBookPage.setVisible(false);
+                    EditBookPage.setVisible(false);
+                    searchText.setVisible(true);
+                    searchIcon.setVisible(true);
+                    editTitle.setText("");
+                    editAuthor.setText("");
+                    editCategory.setText("");
+                    editYear.setText("");
+                    editDescription.setText("");
+                    showAllBooks();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         } else if (actionEvent.getSource() == clearEdit){
             editTitle.setText("");
