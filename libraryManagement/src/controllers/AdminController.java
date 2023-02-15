@@ -113,25 +113,27 @@ public class AdminController implements Initializable {
         }
         return newString.toString();
     }
-    public void showAlert(String text){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    public void showAlert(Alert.AlertType alertType, String text){
+        Alert alert = new Alert(alertType);
         alert.setTitle("System Message");
         alert.setHeaderText(null);
         alert.setContentText(text);
+        alert.getButtonTypes().clear();
+        alert.getButtonTypes().add(ButtonType.OK);
         alert.showAndWait();
     }
     public void AddBook(ActionEvent actionEvent) {
         if (actionEvent.getSource() == save){
             if (title.getText().strip().equals("")){
-                showAlert("Book title field is empty");
+                showAlert(Alert.AlertType.INFORMATION, "Book title field is empty");
             }else if (author.getText().strip().equals("")){
-                showAlert("Book author field is empty");
+                showAlert(Alert.AlertType.INFORMATION, "Book author field is empty");
             }else if (year.getText().strip().equals("")){
-                showAlert("Book published year field is empty");
+                showAlert(Alert.AlertType.INFORMATION, "Book published year field is empty");
             }else if (category.getText().strip().equals("")){
-                showAlert("Book category field is empty");
+                showAlert(Alert.AlertType.INFORMATION, "Book category field is empty");
             }else if (description.getText().strip().equals("")){
-                showAlert("Book description field is empty");
+                showAlert(Alert.AlertType.INFORMATION, "Book description field is empty");
             }else {
                 String sql = "INSERT INTO library_book(title, author, category, published_year, description, check_status) VALUES('%s','%s','%s','%s','%s','%s')".formatted(
                         reformatString(title.getText()),
@@ -145,11 +147,7 @@ public class AdminController implements Initializable {
                     assert connect != null;
                     prepare = connect.prepareStatement(sql);
                     prepare.executeUpdate();
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("System Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Book Added!");
-                    alert.showAndWait();
+                    showAlert(Alert.AlertType.CONFIRMATION, "Book Added!");
                     mainTitle.setText("All Books");
                     AllBooksPage.setVisible(true);
                     AddBookPage.setVisible(false);
@@ -193,11 +191,7 @@ public class AdminController implements Initializable {
                 assert connect != null;
                 prepare = connect.prepareStatement(sql);
                 prepare.executeUpdate();
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("System Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Book Updated!");
-                alert.showAndWait();
+                showAlert(Alert.AlertType.CONFIRMATION, "Book Updated!");
                 mainTitle.setText("All Books");
                 AllBooksPage.setVisible(true);
                 AddBookPage.setVisible(false);
@@ -247,11 +241,7 @@ public class AdminController implements Initializable {
         } else if(actionEvent.getSource() == editBook){
             AllBooks bookData = allBooks.getSelectionModel().getSelectedItem();
             if (bookData == null){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("System Error!");
-                alert.setHeaderText(null);
-                alert.setContentText("Please, Select a book to edit!");
-                alert.showAndWait();
+                showAlert(Alert.AlertType.ERROR, "Please, Select a book to edit!");
             }else {
                 mainTitle.setText("Edit Book Info");
                 editTitle.setText(bookData.getTitle());
@@ -269,32 +259,26 @@ public class AdminController implements Initializable {
         } else if (actionEvent.getSource() == deleteBook){
             AllBooks bookData = allBooks.getSelectionModel().getSelectedItem();
             if (bookData == null){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("System Error!");
-                alert.setHeaderText(null);
-                alert.setContentText("Please, Select a book to delete!");
-                alert.showAndWait();
+                showAlert(Alert.AlertType.ERROR, "Please, Select a book to delete!");
             }else {
                 String sql = "DELETE FROM library_book WHERE id=%s".formatted(bookData.getId());
                 String sql2 = "SELECT check_status FROM library_book WHERE id=%d".formatted(bookData.getId());
                 connect = utils.Database.connectDB();
                 try {
                     assert connect != null;
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("System Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Do you want to remove this book?\nIf yes, press 'OK'\nOtherwise, press 'CANCEL'");
-                    alert.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-                    Optional<ButtonType> result = alert.showAndWait();
+                    Alert alert3 = new Alert(Alert.AlertType.INFORMATION);
+                    alert3.setTitle("System Message");
+                    alert3.setHeaderText(null);
+                    alert3.setContentText("Do you want to remove this book?\nIf yes, press 'OK'\nOtherwise, press 'CANCEL'");
+                    alert3.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+                    Optional<ButtonType> result = alert3.showAndWait();
+                    alert3.getButtonTypes().clear();
+                    alert3.getButtonTypes().add(ButtonType.OK);
 
                     if(result.isEmpty()){
                         // alert is exited, no button has been pressed.
                     } else if(result.get() == ButtonType.CANCEL) {
-                        Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
-                        alert2.setTitle("System Message");
-                        alert2.setHeaderText(null);
-                        alert2.setContentText("Book is not deleted!");
-                        alert2.show();
+                        showAlert(Alert.AlertType.INFORMATION, "Book is not deleted!");
                     } else if(result.get() == ButtonType.OK){
                         prepare = connect.prepareStatement(sql2);
                         ResultSet status = prepare.executeQuery();
@@ -302,17 +286,9 @@ public class AdminController implements Initializable {
                         if (status.getObject("check_status").toString().equals("R")){
                             prepare = connect.prepareStatement(sql);
                             prepare.executeUpdate();
-                            Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
-                            alert2.setTitle("System Message");
-                            alert2.setHeaderText(null);
-                            alert2.setContentText("Book is successfully deleted!");
-                            alert2.show();
+                            showAlert(Alert.AlertType.CONFIRMATION, "Book is successfully deleted!");
                         } else {
-                            Alert alert2 = new Alert(Alert.AlertType.ERROR);
-                            alert2.setTitle("System Message");
-                            alert2.setHeaderText(null);
-                            alert2.setContentText("Book is not returned!\nYou can not delete it now!");
-                            alert2.show();
+                            showAlert(Alert.AlertType.ERROR, "Book is not returned!\nYou can not delete it now!");
                         }
                     }
                     mainTitle.setText("All Books");
