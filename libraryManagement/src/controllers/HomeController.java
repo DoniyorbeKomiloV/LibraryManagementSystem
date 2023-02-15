@@ -21,6 +21,25 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
+
+    @FXML
+    private Label info_first_name;
+    @FXML
+    private Label info_last_name;
+    @FXML
+    private Label info_id_number;
+    @FXML
+    private Label info_password;
+    @FXML
+    private Label info_major;
+    @FXML
+    private Label info_role;
+    @FXML
+    private Label info_group_id;
+    @FXML
+    private Label info_status;
+    @FXML
+    private Button showUserInfo;
     @FXML
     private Label title;
     @FXML
@@ -56,9 +75,14 @@ public class HomeController implements Initializable {
     private Label issued_books;
     @FXML
     private Label available_books;
-
+    @FXML
+    private AnchorPane issued_books_form;
+    @FXML
+    private AnchorPane take_book_form;
     @FXML
     private AnchorPane availableBooks_form;
+    @FXML
+    private AnchorPane showUserInfo_form;
 
     @FXML
     private TableView<BookData> availableBooks_tableView;
@@ -73,10 +97,6 @@ public class HomeController implements Initializable {
     private TableColumn<BookData, String> col_ab_publishedDate;
     @FXML
     private TableColumn<BookData, String> col_ab_category;
-    @FXML
-    private AnchorPane issued_books_form;
-    @FXML
-    private AnchorPane take_book_form;
 
     @FXML
     private TableView<Take> issuedBooks_tableView;
@@ -190,7 +210,7 @@ public class HomeController implements Initializable {
                 prepare = connect.prepareStatement(sql1);
                 prepare.executeUpdate();
                 goBack(availableBooks_form, take_book_form);
-
+                rent_date.setValue(null);
                 refresh();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -222,17 +242,21 @@ public class HomeController implements Initializable {
 
     public void navButtonDesign(ActionEvent event) {
         if (event.getSource() == availableBooks_btn) {
-            setVisible(availableBooks_form, new Node[]{dashboard, issued_books_form, take_book_form});
+            setVisible(availableBooks_form, new Node[]{dashboard, issued_books_form, take_book_form, showUserInfo_form});
         }
         if (event.getSource() == dashboard_btn) {
-            setVisible(dashboard, new Node[]{availableBooks_form, issued_books_form, take_book_form});
+            setVisible(dashboard, new Node[]{availableBooks_form, issued_books_form, take_book_form, showUserInfo_form});
         }
         if (event.getSource() == issued_btn) {
-            setVisible(issued_books_form, new Node[]{availableBooks_form, dashboard, take_book_form});
+            setVisible(issued_books_form, new Node[]{availableBooks_form, dashboard, take_book_form, showUserInfo_form});
+        }
+        if (event.getSource() == showUserInfo) {
+            setVisible(showUserInfo_form, new Node[]{availableBooks_form, dashboard, take_book_form, issued_books_form});
         }
         if (event.getSource() == go_back_btn) {
             goBack(availableBooks_form, take_book_form);
         }
+
     }
     public void goBack(AnchorPane to, AnchorPane from){
         to.setVisible(true);
@@ -412,10 +436,25 @@ public class HomeController implements Initializable {
         }
     }
 
+    private void showUserInfoFunc() {
+        String status = UserInfo.getStatus();
+        if (status.equals("B")) status = "Blocked";
+        else if(status.equals("A")) status = "Active";
+        info_first_name.setText(UserInfo.getFirst_name());
+        info_last_name.setText(UserInfo.getLast_name());
+        info_id_number.setText(UserInfo.getId_number());
+        info_password.setText(UserInfo.getPassword());
+        info_major.setText(UserInfo.getMajor());
+        info_role.setText("User");
+        info_group_id.setText(UserInfo.getGroup_id());
+        info_status.setText(status);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         refresh();
         studentName();
+        showUserInfoFunc();
 
     }
 

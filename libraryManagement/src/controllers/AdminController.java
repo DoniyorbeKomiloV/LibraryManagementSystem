@@ -8,7 +8,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
@@ -16,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AdminController implements Initializable {
@@ -54,7 +54,6 @@ public class AdminController implements Initializable {
     private Label mainTitle;
     private Connection connect;
     private PreparedStatement prepare;
-    private ResultSet result;
 
     @FXML
     private Button addBook;
@@ -106,45 +105,62 @@ public class AdminController implements Initializable {
         description.setText("");
     }
     public String reformatString(String oldString){
-        String newString = "";
+        StringBuilder newString = new StringBuilder();
         for(int i=0; i<oldString.length(); i++){
-            if (oldString.charAt(i) == '\'') newString += "\\'";
-            else if (oldString.charAt(i) == '\"') newString += "\\\"";
-            else newString += oldString.charAt(i);
+            if (oldString.charAt(i) == '\'') newString.append("\\'");
+            else if (oldString.charAt(i) == '\"') newString.append("\\\"");
+            else newString.append(oldString.charAt(i));
         }
-        System.out.println(newString);
-
-        return newString;
+        return newString.toString();
+    }
+    public void showAlert(String text){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("System Message");
+        alert.setHeaderText(null);
+        alert.setContentText(text);
+        alert.showAndWait();
     }
     public void AddBook(ActionEvent actionEvent) {
         if (actionEvent.getSource() == save){
-            String sql = "INSERT INTO library_book(title, author, category, published_year, description, check_status) VALUES('%s','%s','%s','%s','%s','%s')".formatted(
-                    reformatString(title.getText()),
-                    reformatString(author.getText()),
-                    reformatString(category.getText()),
-                    reformatString(year.getText()),
-                    reformatString(description.getText()),
-                    "R");
-            connect = utils.Database.connectDB();
-            try {
-                assert connect != null;
-                prepare = connect.prepareStatement(sql);
-                prepare.executeUpdate();
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Admin");
-                alert.setHeaderText(null);
-                alert.setContentText("Book Added!");
-                alert.showAndWait();
-                mainTitle.setText("All Books");
-                AllBooksPage.setVisible(true);
-                AddBookPage.setVisible(false);
-                EditBookPage.setVisible(false);
-                searchText.setVisible(true);
-                searchIcon.setVisible(true);
-                clear();
-                showAllBooks();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            if (title.getText().strip().equals("")){
+                showAlert("Book title field is empty");
+            }else if (author.getText().strip().equals("")){
+                showAlert("Book author field is empty");
+            }else if (year.getText().strip().equals("")){
+                showAlert("Book published year field is empty");
+            }else if (category.getText().strip().equals("")){
+                showAlert("Book category field is empty");
+            }else if (description.getText().strip().equals("")){
+                showAlert("Book description field is empty");
+            }else {
+                String sql = "INSERT INTO library_book(title, author, category, published_year, description, check_status) VALUES('%s','%s','%s','%s','%s','%s')".formatted(
+                        reformatString(title.getText()),
+                        reformatString(author.getText()),
+                        reformatString(category.getText()),
+                        reformatString(year.getText()),
+                        reformatString(description.getText()),
+                        "R");
+                connect = utils.Database.connectDB();
+                try {
+                    assert connect != null;
+                    prepare = connect.prepareStatement(sql);
+                    prepare.executeUpdate();
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("System Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Book Added!");
+                    alert.showAndWait();
+                    mainTitle.setText("All Books");
+                    AllBooksPage.setVisible(true);
+                    AddBookPage.setVisible(false);
+                    EditBookPage.setVisible(false);
+                    searchText.setVisible(true);
+                    searchIcon.setVisible(true);
+                    clear();
+                    showAllBooks();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
 
@@ -164,7 +180,6 @@ public class AdminController implements Initializable {
     public void EditBookButtonControl(ActionEvent actionEvent){
         AllBooks bookData = allBooks.getSelectionModel().getSelectedItem();
         if (actionEvent.getSource() == saveEdit){
-            System.out.println(bookData.getId());
             String sql = "UPDATE library_book SET author='%s', category='%s', title='%s', published_year='%s', description='%s' WHERE id=%d".formatted(
                     reformatString(editAuthor.getText()),
                     reformatString(editCategory.getText()),
@@ -178,8 +193,8 @@ public class AdminController implements Initializable {
                 assert connect != null;
                 prepare = connect.prepareStatement(sql);
                 prepare.executeUpdate();
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Admin");
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("System Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Book Updated!");
                 alert.showAndWait();
@@ -233,7 +248,7 @@ public class AdminController implements Initializable {
             AllBooks bookData = allBooks.getSelectionModel().getSelectedItem();
             if (bookData == null){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("System error found!");
+                alert.setTitle("System Error!");
                 alert.setHeaderText(null);
                 alert.setContentText("Please, Select a book to edit!");
                 alert.showAndWait();
@@ -255,22 +270,51 @@ public class AdminController implements Initializable {
             AllBooks bookData = allBooks.getSelectionModel().getSelectedItem();
             if (bookData == null){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("System error found!");
+                alert.setTitle("System Error!");
                 alert.setHeaderText(null);
-                alert.setContentText("Please, Select a book to edit!");
+                alert.setContentText("Please, Select a book to delete!");
                 alert.showAndWait();
             }else {
                 String sql = "DELETE FROM library_book WHERE id=%s".formatted(bookData.getId());
+                String sql2 = "SELECT check_ststus FROM library_book WHERE id=%s".formatted(bookData.getId());
                 connect = utils.Database.connectDB();
                 try {
                     assert connect != null;
-                    prepare = connect.prepareStatement(sql);
-                    prepare.executeUpdate();
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Admin");
+                    alert.setTitle("System Message");
                     alert.setHeaderText(null);
-                    alert.setContentText("Book Deleted!");
-                    alert.showAndWait();
+                    alert.setContentText("Do you want to remove this book?\nIf yes, press 'OK'\nOtherwise, press 'CANCEL'");
+                    alert.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+                    Optional<ButtonType> result = alert.showAndWait();
+
+                    if(result.isEmpty()){
+                        // alert is exited, no button has been pressed.
+                    } else if(result.get() == ButtonType.CANCEL) {
+                        Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+                        alert2.setTitle("System Message");
+                        alert2.setHeaderText(null);
+                        alert2.setContentText("Book is not deleted!");
+                        alert2.show();
+                    } else if(result.get() == ButtonType.OK){
+                        prepare = connect.prepareStatement(sql2);
+                        String status = prepare.executeQuery().toString();
+                        System.out.println(status);
+                        if (status.equals("R")){
+                            prepare = connect.prepareStatement(sql);
+                            prepare.executeUpdate();
+                            Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert2.setTitle("System Message");
+                            alert2.setHeaderText(null);
+                            alert2.setContentText("Book is successfully deleted!");
+                            alert2.show();
+                        } else {
+                            Alert alert2 = new Alert(Alert.AlertType.ERROR);
+                            alert2.setTitle("System Message");
+                            alert2.setHeaderText(null);
+                            alert2.setContentText("Book is not returned!\nYou can not delete it now!");
+                            alert2.show();
+                        }
+                    }
                     mainTitle.setText("All Books");
                     AllBooksPage.setVisible(true);
                     AddBookPage.setVisible(false);
@@ -300,7 +344,7 @@ public class AdminController implements Initializable {
             e.printStackTrace();
         }
     }
-    public void search(KeyEvent keyEvent){
+    public void search(){
         // to check the input data is coming or not
         System.out.println(searchText.getText());
         // search ...

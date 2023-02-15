@@ -61,9 +61,9 @@ public class LoginController implements Initializable {
             if(id_number.getText().isEmpty() || password.getText().isEmpty()){
                 
                 alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Admin Message");
+                alert.setTitle("System Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Please fill all blank fields.");
+                alert.setContentText("Please, fill all blank fields.");
                 alert.showAndWait();
             }else{
                 if(result.next()){
@@ -80,14 +80,14 @@ public class LoginController implements Initializable {
                     );
                     if(result.getString("status").equals("B")){
                         alert = new Alert(AlertType.INFORMATION);
-                        alert.setTitle("Admin Message");
+                        alert.setTitle("System Message");
                         alert.setHeaderText(null);
                         alert.setContentText("You hava been blocked by Admin and cannot access the application");
                         alert.showAndWait();
                         write("", "");
                     } else if (result.getString("role").equals("A")) {
                         alert = new Alert(AlertType.INFORMATION);
-                        alert.setTitle("Admin Message");
+                        alert.setTitle("System Message");
                         alert.setHeaderText(null);
                         alert.setContentText("You have logged in as Admin");
                         alert.showAndWait();
@@ -97,7 +97,7 @@ public class LoginController implements Initializable {
                         login_Btn.getScene().getWindow().hide();
                     } else{
                         alert = new Alert(AlertType.INFORMATION);
-                        alert.setTitle("Admin Message");
+                        alert.setTitle("System Message");
                         alert.setHeaderText(null);
                         alert.setContentText("Successfully Login!");
                         alert.showAndWait();
@@ -106,7 +106,7 @@ public class LoginController implements Initializable {
                     }
                 }else{
                     alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Admin Message");
+                    alert.setTitle("System Message");
                     alert.setHeaderText(null);
                     alert.setContentText("Wrong Username or Password.");
                     alert.showAndWait();
