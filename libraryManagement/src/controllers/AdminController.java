@@ -276,7 +276,7 @@ public class AdminController implements Initializable {
                 alert.showAndWait();
             }else {
                 String sql = "DELETE FROM library_book WHERE id=%s".formatted(bookData.getId());
-                String sql2 = "SELECT check_ststus FROM library_book WHERE id=%s".formatted(bookData.getId());
+                String sql2 = "SELECT check_status FROM library_book WHERE id=%d".formatted(bookData.getId());
                 connect = utils.Database.connectDB();
                 try {
                     assert connect != null;
@@ -297,9 +297,9 @@ public class AdminController implements Initializable {
                         alert2.show();
                     } else if(result.get() == ButtonType.OK){
                         prepare = connect.prepareStatement(sql2);
-                        String status = prepare.executeQuery().toString();
-                        System.out.println(status);
-                        if (status.equals("R")){
+                        ResultSet status = prepare.executeQuery();
+                        status.next();
+                        if (status.getObject("check_status").toString().equals("R")){
                             prepare = connect.prepareStatement(sql);
                             prepare.executeUpdate();
                             Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);

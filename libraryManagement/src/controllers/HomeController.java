@@ -365,9 +365,9 @@ public class HomeController implements Initializable {
 
         }else {
             Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Admin Message");
+            alert.setTitle("System Message");
             alert.setHeaderText(null);
-            alert.setContentText("Please select a book");
+            alert.setContentText("Please, select a book");
             alert.showAndWait();
         }
 
@@ -395,10 +395,10 @@ public class HomeController implements Initializable {
                 prepare = connect.prepareStatement(sql);
                 prepare.executeUpdate();
 
-                alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Admin Message");
+                alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("System Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Successfully return the book!");
+                alert.setContentText("Book successfully returned!");
                 alert.showAndWait();
                 prepare = connect.prepareStatement(sql1);
                 prepare.executeUpdate();
@@ -409,9 +409,9 @@ public class HomeController implements Initializable {
 
         }else {
             Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Admin Message");
+            alert.setTitle("System Message");
             alert.setHeaderText(null);
-            alert.setContentText("Please select a book");
+            alert.setContentText("Please, select a book");
             alert.showAndWait();
         }
 
