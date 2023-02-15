@@ -136,21 +136,21 @@
                <Font size="20.0" />
             </font>
          </Label>
-         <TextArea fx:id="description" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
-            <font>
-               <Font size="14.0" />
-            </font>
-         </TextArea>
-         <Label layoutX="531.0" layoutY="149.0" text="Description" GridPane.columnIndex="1" GridPane.rowIndex="4">
-            <font>
-               <Font size="20.0" />
-            </font>
-         </Label>
          <TextField fx:id="author" layoutX="219.0" layoutY="146.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
             <font>
                <Font size="16.0" />
             </font>
          </TextField>
+         <Label layoutX="531.0" layoutY="149.0" text="Description" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <TextArea fx:id="description" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </TextArea>
       </GridPane>
    </AnchorPane>
    <AnchorPane fx:id="EditBookPage" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="530.0" prefWidth="986.0" visible="false">
